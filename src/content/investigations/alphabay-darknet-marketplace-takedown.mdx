@@ -17,7 +17,7 @@ threat_actor: "Alexandre Cazes (operating under aliases 'Alpha02' and 'Admin')"
 target: "AlphaBay Darknet Marketplace & Associated Commerce Infrastructure"
 impact: "More than $1B in reported marketplace transactions; approximately 369,000 listings by June 2017"
 references:
-  - title: "United States v. Any and All Assets of Alexandre Cazes (Verified Civil Forfeiture Complaint, Case 1:17-cv-01490)"
+  - title: "United States v. Any and All Assets of Alexandre Cazes (Verified Complaint for Forfeiture In Rem, Case 1:17-at-00557)"
     url: "https://www.justice.gov/opa/press-release/file/982821/dl?inline="
     organization: "U.S. Department of Justice (Eastern District of California) [Primary Source]"
     date: "July 19, 2017"
@@ -45,6 +45,10 @@ references:
     url: "https://www.rfc-editor.org/rfc/rfc5322"
     organization: "Internet Engineering Task Force (IETF) [Technical Standard]"
     date: "October 2008"
+  - title: "RFC 5321: Simple Mail Transfer Protocol"
+    url: "https://www.rfc-editor.org/rfc/rfc5321"
+    organization: "Internet Engineering Task Force (IETF) [Technical Standard]"
+    date: "October 2008"
 ---
 
 import InvestigationTimeline from '../../components/article/InvestigationTimeline.astro';
@@ -57,22 +61,22 @@ import ReferenceList from '../../components/article/ReferenceList.astro';
 
 ## Executive Summary
 
-At its peak in mid-2017, **AlphaBay** was the preeminent commercial marketplace on the dark web. In its official civil forfeiture complaint, the U.S. Department of Justice documented that the platform hosted approximately 369,000 listings by June 2017. Official announcements by federal law enforcement distinguished more than 250,000 listings for illegal narcotics and toxic chemicals alongside over 100,000 listings for fraudulent identification documents, counterfeit merchandise, malware, computer hacking utilities, firearms, and illicit services. An AlphaBay staff member cited by federal prosecutors claimed the platform serviced over 200,000 users and 40,000 vendors globally—operating at vastly greater scale than the original Silk Road, which hosted approximately 14,000 listings at the time of its October 2013 seizure. In its subsequent *Cryptocurrency Enforcement Framework*, the DOJ noted that AlphaBay facilitated more than $1 billion in total marketplace transactions between its 2014 launch and July 2017 takedown.
+At its peak in mid-2017, **AlphaBay** was the preeminent commercial marketplace on the dark web. In its official civil forfeiture complaint (*Case 1:17-at-00557*), the U.S. Department of Justice documented that the platform hosted approximately 369,000 listings by June 2017. Official announcements by federal law enforcement distinguished more than 250,000 listings for illegal narcotics and toxic chemicals alongside over 100,000 listings for fraudulent identification documents, counterfeit merchandise, malware, computer hacking utilities, firearms, and illicit services. An AlphaBay staff member cited by federal prosecutors claimed the platform serviced over 200,000 users and 40,000 vendors globally—operating at vastly greater scale than the original Silk Road, which hosted approximately 14,000 listings at the time of its October 2013 seizure. In its subsequent *Cryptocurrency Enforcement Framework*, the DOJ noted that AlphaBay facilitated more than $1 billion in total marketplace transactions between its 2014 launch and July 2017 takedown.
 
 The platform's creator and lead administrator operated under the pseudonyms **Alpha02** and **Admin**, managing distributed Tor hidden services and hardened server infrastructure. However, the international multi-agency effort known as **Operation Bayonet** penetrated the enterprise not by compromising Tor's onion routing cryptography, but through a foundational operational security (OPSEC) failure: the exposure of a personal email address inside the header metadata of automated forum notification messages.
 
-In December 2014, when AlphaBay established its official discussion forums, automated welcome and password-recovery notifications dispatched to newly registered accounts contained the personal address **`Pimp_Alex_91@hotmail.com`** within their header information. In late 2016, federal investigators obtained an archived notification message containing this address. Cross-referencing historical public internet records, investigators located a December 3, 2008 technical post on the French forum *Comment Ça Marche* by a user posting under the pseudonym `Alpha02`, signed with the legal name **Alexandre Cazes** and listing that identical Hotmail address.
+In December 2014, when AlphaBay established its official discussion forums, the platform required users to provide an email address for password recovery. Automated welcome messages dispatched to new users contained the personal address **`Pimp_Alex_91@hotmail.com`** within their header information, and password-reset notifications listed that identical address as the sender. In late 2016, federal investigators obtained an archived notification message containing this address. Cross-referencing historical public internet records, investigators located a December 3, 2008 technical post on the French forum *Comment Ça Marche* by a user posting under the pseudonym `Alpha02`, signed with the legal name **Alexandre Cazes** and listing that identical Hotmail address.
 
-This initial lead formed the cornerstone of a multi-agency international investigation. Rather than relying solely on the email correlation, law enforcement corroborated Cazes's operational role through Canadian corporate registrations for EBX Technologies, cross-border financial tracing of bank accounts and cryptocurrency addresses, luxury real estate acquisitions, and physical surveillance in Thailand. On July 5, 2017, the Royal Thai Police, accompanied by U.S. law enforcement liaisons, arrested Cazes at his Bangkok residence. Investigators seized his open, unencrypted laptop computer in his bedroom while it was actively logged into the AlphaBay server hosting environment and forum administration interfaces under the username `Admin`, while Cazes was actively engaged in a live chat troubleshooting an orchestrated server outage with his overseas hosting provider. On July 12, 2017, Cazes was found dead in his cell while detained in Bangkok awaiting extradition; Thai authorities reported the cause of death as a suicide. On July 20, 2017, the U.S. Department of Justice, Europol, and Dutch authorities publicly revealed the coordinated takedown of AlphaBay and the parallel covert operation on Hansa Market.
+This initial lead formed the cornerstone of a multi-agency international investigation. Rather than relying solely on the email correlation, law enforcement corroborated Cazes's operational role through Canadian corporate registrations for EBX Technologies, cross-border financial tracing of bank accounts and cryptocurrency addresses, luxury real estate acquisitions, and physical surveillance in Thailand. On July 5, 2017, the Royal Thai Police, accompanied by FBI and DEA liaisons, executed arrest and search warrants at Cazes's Bangkok residence. Investigators seized his open, unencrypted laptop computer in his bedroom while it was actively logged into the AlphaBay server hosting environment and forum administration interfaces under the username `Admin`. Cazes had accessed the data center to execute a server reboot command following a law-enforcement-created service outage and was actively responding to forum inquiries about the downtime. Plaintext text files recovered on the laptop contained passwords and passkeys for infrastructure and online identities, alongside an itemized document estimating his total net worth at approximately $23,033,975. On July 12, 2017, Cazes was found dead in his cell while detained in Bangkok awaiting extradition; Thai authorities reported the cause of death as a suicide. On July 20, 2017, the U.S. Department of Justice, Europol, and Dutch authorities publicly revealed the coordinated takedown of AlphaBay and the parallel covert operation on Hansa Market.
 
 <KeyFindings
   title="Critical Case Discoveries"
   items={[
-    "Automated Header Exposure [DOCUMENTED]: Welcome and password-recovery emails dispatched by AlphaBay's forum during its December 2014 launch included 'Pimp_Alex_91@hotmail.com' within their header information.",
+    "Automated Header Exposure [DOCUMENTED]: Welcome and password-recovery notifications dispatched by AlphaBay's forum in December 2014 exposed 'Pimp_Alex_91@hotmail.com' within their header information and sender fields.",
     "Historical Identity Lead [DOCUMENTED]: A December 3, 2008 post on the French forum Comment Ça Marche by user 'Alpha02' listed Alexandre Cazes's legal name and the identical Hotmail address.",
     "Multi-Stage Corroboration [CORROBORATED]: The email lead did not prove administrative culpability alone; investigators corroborated Cazes's role through Canadian corporate records (EBX Technologies), banking flows, cryptocurrency tracing, luxury asset purchases, and physical surveillance.",
-    "Open Laptop Seizure & Live Hosting Chat [DOCUMENTED]: During the July 5, 2017 Bangkok arrest, Cazes's laptop was seized open and unencrypted, actively logged into AlphaBay's hosting infrastructure as 'Admin' while communicating with a hosting provider regarding an orchestrated server outage.",
-    "Accessible Credential Cache & Asset Ledger [DOCUMENTED]: Plaintext text files recovered on the laptop contained passwords and passkeys for AlphaBay website hosting, servers, and hot wallets, alongside an itemized global net-worth ledger.",
+    "Open Laptop Seizure & Server Reboot [DOCUMENTED]: During the July 5, 2017 Bangkok arrest, Cazes's laptop was seized open and unencrypted, logged in as 'Admin' while Cazes was executing a data center server reboot command following an orchestrated outage and replying to forum users.",
+    "Accessible Credential Cache & Net-Worth Document [DOCUMENTED]: Plaintext text files on the laptop contained passwords and passkeys for website hosting, backend servers, and online identities, alongside a document itemizing approximately $23,033,975 in global assets.",
     "Coordinated International Enforcement [DOCUMENTED]: Operation Bayonet synchronized distinct agency responsibilities: U.S. federal agencies led the AlphaBay investigation and prosecution, Dutch National Police covertly took over Hansa Market in June 2017 to capture migrating darknet traffic, and the Royal Thai Police carried out Cazes's arrest."
   ]}
 />
@@ -85,13 +89,13 @@ In darknet operations, anonymity is entirely contingent upon absolute compartmen
 
 ### 1. Documented Header Exposure
 
-According to the official Department of Justice civil forfeiture complaint (*United States v. Any and All Assets of Alexandre Cazes*, Case 1:17-cv-01490):
+According to the official Department of Justice civil forfeiture complaint (*United States v. Any and All Assets of Alexandre Cazes*, Case 1:17-at-00557):
 
-1. **Forum Registration Workflow:** In December 2014, AlphaBay launched its discussion forums. Account creation required users to provide an email address for verification and account recovery.
+1. **Password-Recovery Requirements:** In December 2014, AlphaBay launched its discussion forums. The forum required users to provide an email address for password-recovery purposes.
 2. **Automated Welcome Messages:** Upon registration, the forum software automatically dispatched a welcome notification to the user's provided address.
-3. **Exposed Header Information:** The email address **`Pimp_Alex_91@hotmail.com`** appeared within the header information of these automated welcome emails.
-4. **Password-Recovery Notifications:** The same Hotmail address also appeared in the header information of automated password-reset emails dispatched to forum members.
-5. **Investigative Acquisition:** Law enforcement learned of this email exposure in December 2016. According to investigative reporting by WIRED, a source had retained an archived copy of a December 2014 welcome email, which revealed both the personal Hotmail address and the IP address of an outbound server located in the Netherlands.
+3. **Exposed Header Information:** The personal email address **`Pimp_Alex_91@hotmail.com`** appeared within the header information of these automated welcome emails.
+4. **Password-Recovery Notifications:** The same Hotmail address also appeared as the sender address in automated password-reset emails dispatched to forum members.
+5. **Investigative Acquisition:** Law enforcement learned of this email exposure in December 2016. According to investigative reporting by WIRED, a source had retained an archived copy of a December 2014 welcome email and provided it to investigators in late November 2016, revealing both the personal Hotmail address and the IP address of an outbound server located in the Netherlands.
 
 ```text
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -132,8 +136,9 @@ According to the official Department of Justice civil forfeiture complaint (*Uni
 │ STAGE C: PHYSICAL & DIGITAL EVIDENCE                                   │
 │ - Unencrypted laptop open in bedroom                                   │
 │ - Active 'Admin' session on AlphaBay hosting environment & forums      │
-│ - Live chat with hosting provider troubleshooting server outage        │
-│ - Plaintext files containing passwords, passkeys & net-worth ledger    │
+│ - Executed data center server reboot command following outage          │
+│ - Replying to forum users regarding outage; plaintext credentials      │
+│ - Document titled 'TOTAL NET WORTH' itemizing ~$23,033,975 in assets   │
 └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -142,15 +147,15 @@ According to the official Department of Justice civil forfeiture complaint (*Uni
 To understand how an administrative address leaks through automated notifications, digital forensic examiners must distinguish between Internet Message Format headers (RFC 5322) and SMTP transport envelope parameters (RFC 5321):
 
 * **Message Headers (RFC 5322):** The header block prefixed to an email's body text contains message metadata fields, including `From:` (purported author), `To:` (intended recipient), `Subject:`, `Date:`, and optional fields such as `Reply-To:` (address designated by the sender for receiving replies) and `Message-ID:`.
-* **SMTP Transport Envelope (RFC 5321):** The protocol-level exchange negotiated between Mail Transfer Agents (MTAs) using commands such as `MAIL FROM` (the envelope sender) and `RCPT TO` (the envelope recipient). The SMTP envelope is fundamentally distinct from user-visible message headers. The destination MTA typically prepends a `Return-Path:` header upon final mailbox delivery to record the envelope sender for routing bounce and non-delivery notifications. `Return-Path:` is an MTA delivery artifact rather than an application-configured message header.
+* **SMTP Transport Envelope (RFC 5321):** The protocol-level exchange negotiated between Mail Transfer Agents (MTAs) using commands such as `MAIL FROM` (the envelope sender) and `RCPT TO` (the envelope recipient). The SMTP envelope is fundamentally distinct from user-visible message headers. The destination MTA typically prepends a `Return-Path:` header upon final mailbox delivery to record the envelope sender for routing bounce and non-delivery notifications. `Return-Path:` is an MTA delivery artifact rather than an application-configured message header, and inspecting `Return-Path:` cannot be treated as a reliable substitute for examining the original message headers.
 * **Received Headers:** Each intermediate MTA processing a message prepends a `Received:` field detailing transit hops, receiving hostnames, IP addresses, and timestamps. While `Received:` headers provide critical telemetry, they reflect the transport route negotiated between relays and do not inherently expose the true originating client IP if traffic was proxied or tunneled.
 
-The civil forfeiture complaint notes that `Pimp_Alex_91@hotmail.com` appeared in the "header" of the welcome and password-recovery emails, without reproducing the complete, raw RFC 5322 header block or identifying the specific header field containing the address.
+The civil forfeiture complaint notes that `Pimp_Alex_91@hotmail.com` appeared in the "header" of the welcome emails and as the sender of password-reset emails, without reproducing the complete, raw RFC 5322 header block or identifying the specific header field containing the address.
 
-In automated web application development, an administrative email address can enter outbound message headers through several standard mechanisms:
-1. Setting an administrative personal email address as the default `From:` or `Reply-To:` contact in forum configuration files.
+Public court filings do not establish the original forum software configuration, the programming language and mail library, the exact RFC 5322 header field responsible, the exact server-side misconfiguration, or the original mail dispatch implementation. In automated web application development, an administrative email address can enter outbound message headers through several standard mechanisms:
+1. Setting an administrative personal email address as the default contact in forum configuration files.
 2. Configuring a personal mailbox as the error-handling or bounce address (`MAIL FROM`) during initial platform testing and failing to sanitize it prior to production deployment.
-3. Employing default mailer libraries that automatically fall back to local server configuration parameters when envelope options are omitted.
+3. Employing default mailer configurations that automatically fall back to administrative contact directives when envelope parameters are omitted.
 
 <EditorialAlert type="analysis" title="INVESTIGATIVE ATTRIBUTION: A MULTI-STAGE PROCESS">
   The email header exposure did not independently prove that Alexandre Cazes was the operator of AlphaBay; rather, it served as an indispensable **initial identity lead**. Investigators correlated `Pimp_Alex_91@hotmail.com` with the 2008 *Comment Ça Marche* post by user `Alpha02` (Alexandre Cazes). Because the primary administrator of AlphaBay operated under the identical handle `Alpha02`, this correlation focused investigative resources on Cazes, prompting financial tracking, corporate registry audits, luxury asset tracing, and physical surveillance.
@@ -158,14 +163,14 @@ In automated web application development, an administrative email address can en
 
 ### 3. Illustrative Reconstruction: Conceptual Mail Dispatch Flaw
 
-<EditorialAlert type="warning" title="ILLUSTRATIVE EXPLANATION — NOT RECOVERED ALPHABAY SOURCE CODE">
-  The specific backend programming language, mail libraries, server configurations, and deployment scripts used by AlphaBay's forum are not established in public court filings. The following pseudocode is an educational illustration demonstrating conceptually how an application can construct outbound notifications with an unscrubbed administrative identity.
+<EditorialAlert type="warning" title="ILLUSTRATIVE PSEUDOCODE — NOT RECOVERED ALPHABAY SOURCE CODE">
+  The specific backend programming language, mail libraries, server configurations, and deployment scripts used by AlphaBay's forum remain unknown from public court records. The following pseudocode is an educational illustration demonstrating conceptually how an application can construct outbound notifications with an unscrubbed administrative identity.
 </EditorialAlert>
 
 ```text
-// ILLUSTRATIVE PSEUDOCODE — CONCEPTUAL CONFIGURATION FLAW
+// ILLUSTRATIVE PSEUDOCODE — NOT RECOVERED ALPHABAY SOURCE CODE
 // Demonstrates how an unsanitized administrative address can enter outbound notifications
-// (Not recovered AlphaBay source code; implementation language and libraries unverified)
+// (Implementation language, mail libraries, and exact server configuration remain unknown)
 
 function dispatch_forum_notification(recipient_email, account_username):
     subject = "Welcome to the Forum"
@@ -196,7 +201,7 @@ When analyzing similar identity-exposure incidents, modern digital forensic and 
 * **Header & Envelope Deconstruction:** Analysts systematically parse the message headers (`From:`, `Reply-To:`, `Message-ID:`) and separate them from delivery artifacts (`Return-Path:`). `Received:` chains are evaluated chronologically from bottom to top, identifying intermediate MTAs, originating IP addresses, and transit hostnames.
 * **OSINT & Persona Correlation:** Recovered email addresses and usernames are queried against historical public web archives, technical forums, domain registrations, and credential dumps. Analysts map account creation dates, language patterns, and associated identifiers across multiple years to establish potential linkages.
 * **Independent Evidentiary Corroboration:** Crucially, digital identity leads are treated as investigative hypotheses rather than conclusive proof. Modern DFIR and law enforcement investigations corroborate identity leads through off-chain records: corporate business filings, banking and payment histories, cryptocurrency blockchain analysis, and physical surveillance.
-* **Volatile Memory & Live Triage:** When executing physical enforcement actions, investigators prioritize volatile memory preservation and live session capture to secure decrypted file stores and active authenticated connections before endpoints can be locked or powered off.
+* **Live System Triage (General DFIR Principle):** When executing physical enforcement actions on running endpoints, forensic teams prioritize live session capture and volatile memory triage to secure active authenticated connections and decrypted stores before systems power off or lock.
 
 ---
 
@@ -209,43 +214,43 @@ When analyzing similar identity-exposure incidents, modern digital forensic and 
       number: 1,
       phase: "Initial Exposure [DOCUMENTED]",
       action: "Forum Notification Header Metadata",
-      technicalVector: "AlphaBay forum welcome and password-recovery notifications dispatched in December 2014 contained the personal email address 'Pimp_Alex_91@hotmail.com' in their header information.",
-      mitigationOrDetection: "Automated header inspection and outbound MTA filtering to detect administrative contact leakage before message transit."
+      technicalVector: "AlphaBay forum welcome and password-recovery notifications dispatched in December 2014 contained the personal email address 'Pimp_Alex_91@hotmail.com' in their header information and sender fields.",
+      mitigationOrDetection: "INVESTIGATIVE ACTION — Analysis of archived forum notification headers and metadata extraction to identify administrative contact leakage."
     },
     {
       number: 2,
       phase: "Identity Correlation [DOCUMENTED]",
       action: "Historical Forum Attribution",
-      technicalVector: "Law enforcement linked the Hotmail address to a December 3, 2008 Comment Ça Marche post by user 'Alpha02', signed with Alexandre Cazes's legal name.",
-      mitigationOrDetection: "Longitudinal OSINT searching and identity graph correlation across historical discussion archives and public account profiles."
+      technicalVector: "Law enforcement cross-referenced the exposed Hotmail address against historical public internet archives, locating a December 3, 2008 Comment Ça Marche post by user 'Alpha02', signed with Alexandre Cazes's legal name.",
+      mitigationOrDetection: "INVESTIGATIVE ACTION — Longitudinal OSINT searching and identity graph correlation across historical tech forums and public records."
     },
     {
       number: 3,
       phase: "Investigative Corroboration [CORROBORATED]",
       action: "Corporate & Financial Mapping",
       technicalVector: "Investigators corroborated Cazes's operational role through Canadian corporate records for EBX Technologies, cross-border banking flows, luxury real estate acquisitions, and physical surveillance in Thailand.",
-      mitigationOrDetection: "Multi-jurisdictional financial intelligence analysis, corporate registry verification, and anti-money laundering (AML) tracking."
+      mitigationOrDetection: "INVESTIGATIVE ACTION — Cross-border financial intelligence analysis, corporate registry verification, and anti-money laundering (AML) tracking."
     },
     {
       number: 4,
       phase: "Coordinated Enforcement [DOCUMENTED]",
       action: "Multi-Agency Operation Bayonet",
-      technicalVector: "International partners executed coordinated roles: U.S. federal agencies led the AlphaBay investigation and prosecution, Dutch National Police covertly took over Hansa Market, and the Royal Thai Police carried out Cazes's arrest.",
-      mitigationOrDetection: "Coordinated international law enforcement synchronization, covert infrastructure takeover, and user migration intelligence collection."
+      technicalVector: "International partners executed coordinated operational roles: U.S. federal authorities led the AlphaBay investigation and prosecution, Dutch National Police covertly took over Hansa Market in June 2017, and Royal Thai Police carried out Cazes's arrest.",
+      mitigationOrDetection: "INVESTIGATIVE ACTION — Multi-jurisdictional law enforcement synchronization, covert infrastructure takeover, and user migration intelligence collection."
     },
     {
       number: 5,
       phase: "Physical Arrest & Endpoint Seizure [DOCUMENTED]",
       action: "Open, Unencrypted Laptop Seizure",
-      technicalVector: "Thai authorities, assisted by U.S. agents, arrested Cazes at his Bangkok residence; his laptop was open, unencrypted, and actively logged into the AlphaBay hosting environment as 'Admin'.",
-      mitigationOrDetection: "Live forensic triage and operational timing to capture active, running administrative sessions prior to power-off or lock."
+      technicalVector: "Thai police, assisted by FBI and DEA agents, arrested Cazes at his Bangkok residence; his laptop was open, unencrypted, and actively logged into the AlphaBay hosting infrastructure and forums as 'Admin'.",
+      mitigationOrDetection: "INVESTIGATIVE ACTION — Tactical timing and live physical entry to secure active, running administrative sessions prior to host lock or power-off."
     },
     {
       number: 6,
       phase: "Direct Evidence Extraction [DOCUMENTED]",
-      action: "Credential Cache & Asset Ledger Recovery",
-      technicalVector: "Investigators recovered open plaintext files listing passwords and passkeys for AlphaBay hosting, servers, and hot wallets, an itemized net-worth ledger, and active chats with an overseas hosting provider regarding an orchestrated server outage.",
-      mitigationOrDetection: "Volatile memory preservation, live network session extraction, and forensic disk imaging of running endpoint storage."
+      action: "Credential Cache & Net-Worth Ledger Recovery",
+      technicalVector: "Investigators recovered open plaintext files listing passwords and passkeys for AlphaBay website hosting, servers, and other identities, alongside an itemized net-worth document totaling ~$23,033,975, while observing Cazes executing server reboot commands and responding to forum users.",
+      mitigationOrDetection: "INVESTIGATIVE ACTION — Live triage, forensic imaging of unencrypted storage, and extraction of open configuration files, active sessions, and financial ledgers."
     }
   ]}
 />
@@ -260,21 +265,21 @@ When analyzing similar identity-exposure incidents, modern digital forensic and 
       date: "December 3, 2008",
       title: "Historical Comment Ça Marche Forum Record [DOCUMENTED]",
       description: "A user posting under the pseudonym 'Alpha02' participates in a technical discussion on the French forum Comment Ça Marche, signing the post with the legal name 'Alexandre Cazes' and listing 'Pimp_Alex_91@hotmail.com'.",
-      evidenceRef: "DOJ Civil Forfeiture Complaint, ¶ 21",
+      evidenceRef: "DOJ Civil Forfeiture Complaint (Case 1:17-at-00557), ¶ 21",
       type: "recon"
     },
     {
       date: "December 2014",
       title: "AlphaBay Marketplace & Forum Launch [DOCUMENTED]",
-      description: "AlphaBay launches on the Tor network. Automated welcome and password-recovery notifications dispatched to forum members include 'Pimp_Alex_91@hotmail.com' in their header information.",
-      evidenceRef: "DOJ Civil Forfeiture Complaint, ¶¶ 19–20",
+      description: "AlphaBay launches on the Tor network. Automated welcome and password-recovery notifications dispatched to forum members include 'Pimp_Alex_91@hotmail.com' in their header information and sender fields.",
+      evidenceRef: "DOJ Civil Forfeiture Complaint (Case 1:17-at-00557), ¶¶ 19–20",
       type: "incident"
     },
     {
       date: "Late 2016",
       title: "Law Enforcement Obtains Email Lead [DOCUMENTED / REPORTED]",
       description: "According to WIRED's reporting, investigators obtained an archived 2014 welcome email in late November 2016; the DOJ complaint documents that law enforcement learned of the email exposure in December 2016 and connected the address to the 2008 Comment Ça Marche record.",
-      evidenceRef: "DOJ Civil Forfeiture Complaint, ¶ 20; WIRED Investigation",
+      evidenceRef: "DOJ Civil Forfeiture Complaint (Case 1:17-at-00557), ¶ 20; WIRED Investigation",
       type: "forensic"
     },
     {
@@ -287,14 +292,14 @@ When analyzing similar identity-exposure incidents, modern digital forensic and 
     {
       date: "July 5, 2017",
       title: "Bangkok Arrest & Live Laptop Seizure [DOCUMENTED]",
-      description: "Royal Thai Police, accompanied by U.S. law enforcement, arrest Cazes at his Bangkok residence. His laptop is seized open, unencrypted, and logged into the AlphaBay hosting infrastructure as 'Admin' while Cazes was actively chatting with a hosting provider regarding a server outage.",
-      evidenceRef: "DOJ Civil Forfeiture Complaint, ¶¶ 28–31",
+      description: "Royal Thai Police, assisted by FBI and DEA agents, arrest Cazes at his Bangkok residence. His laptop is seized open, unencrypted, and logged into AlphaBay infrastructure as 'Admin' while Cazes was executing a data center server reboot command following an outage and replying to forum users.",
+      evidenceRef: "DOJ Civil Forfeiture Complaint (Case 1:17-at-00557), ¶¶ 28–31",
       type: "legal"
     },
     {
       date: "July 12, 2017",
       title: "Death of Alexandre Cazes in Custody [REPORTED]",
-      description: "While detained at the Narcotics Suppression Bureau in Bangkok awaiting extradition proceedings to the United States, Alexandre Cazes is found dead in his cell. Thai authorities report the cause of death as a suicide.",
+      description: "While detained at the Narcotics Suppression Bureau in Bangkok awaiting extradition proceedings to the United States on criminal charges (Case 1:17-CR-00144-LJO-SKO), Alexandre Cazes is found dead in his cell. Thai authorities report the cause of death as a suicide.",
       evidenceRef: "DOJ Takedown Announcement; Royal Thai Police Official Statement",
       type: "legal"
     },
@@ -312,37 +317,43 @@ When analyzing similar identity-exposure incidents, modern digital forensic and 
 
 ## The Administrative Laptop: An Exposed Live Session
 
-On the morning of July 5, 2017, the Royal Thai Police, accompanied by U.S. law enforcement liaisons, executed an arrest warrant at Cazes's primary residence in Bangkok, Thailand.
+On the morning of July 5, 2017, the Royal Thai Police, accompanied by FBI and DEA liaisons, executed arrest and search warrants at Cazes's primary residence in Bangkok, Thailand.
 
-Paragraphs 28–31 of the verified civil forfeiture complaint describe the physical and digital evidence observed upon entry:
+Paragraphs 28–31 of the verified civil forfeiture complaint (*Case 1:17-at-00557*) describe the physical and digital evidence observed upon entry:
 
 1. **Active Administrative Session:** Cazes's laptop computer was open, running, and unencrypted in his bedroom.
-2. **Infrastructure Management Access:** The laptop was logged into the server hosting the AlphaBay website under the account handle `Admin`.
-3. **Forum Administrative Control:** The laptop was simultaneously logged into the AlphaBay forums under the handle `Admin`.
-4. **Data Center Communications During Server Outage:** Law enforcement deliberately coordinated a server outage to observe Cazes's reaction. When authorities entered, Cazes was actively engaged in a live chat session with his overseas hosting provider, attempting to troubleshoot and restore the offline infrastructure.
-5. **Plaintext Password and Passkey Files:** Investigators discovered open, unencrypted text files on the machine containing passwords and passkeys for the AlphaBay website, its backend servers, and administrative accounts.
-6. **Financial Asset Ledger:** Investigators recovered a comprehensive document detailing Cazes's global assets, itemizing bank accounts, luxury vehicles (including a Lamborghini and Porsche), real estate properties in Thailand and Cyprus, and cryptocurrency holdings across Bitcoin, Ethereum, and Monero.
+2. **Server Administration & Data Center Reboot:** The laptop was logged into the server hosting the AlphaBay website under the account handle `Admin`. Cazes had accessed the data center environment to execute a reboot command on one of AlphaBay's servers following a service disruption orchestrated earlier that morning by law enforcement.
+3. **Forum Administrative Control:** The laptop was simultaneously logged into the AlphaBay forums under the handle `Admin`, where Cazes was actively responding to forum members inquiring about the site outage.
+4. **Plaintext Password and Passkey Files:** Investigators discovered open, unencrypted text files on the machine containing passwords and passkeys for the AlphaBay website, its backend servers, and other online identities associated with Cazes.
+5. **Itemized Financial Document:** The laptop contained a document entitled "TOTAL NET WORTH" itemizing Cazes's global assets, including bank accounts, luxury real estate in Thailand and Cyprus, vehicles (including a Lamborghini and Porsche), and cryptocurrency holdings across Bitcoin, Ethereum, and Monero, estimating his net worth at approximately $23,033,975.
+
+---
+
+## Investigative Evidence & Exhibit Provenance
+
+> [!NOTE]
+> **Cyber Exorcist Editorial References:** The labels `EXHIBIT-A-01` and `EXHIBIT-B-02` are internal editorial reference identifiers, not formal government evidence numbers. Cyber Exorcist does not independently possess the original seized laptop, email archives, forum databases, or forensic disk images; our analysis relies on verified court filings (primarily Case 1:17-at-00557) and authoritative public records. Furthermore, statements drawn from verified complaints reflect factual allegations submitted by the government rather than final contested judicial trial findings.
 
 <EvidenceCard
   id="EXHIBIT-A-01"
   title="The Open Administrative Laptop"
   type="Court Filing Excerpt"
-  source="U.S. District Court (E.D. Cal.), Verified Civil Forfeiture Complaint, ¶¶ 28–31"
-  significance="Physical recovery of active administrative sessions, hosting provider communications, and plaintext credential files."
-  hashOrIdentifier="Cyber Exorcist Editorial Reference: DOJ-CIVIL-FORFEITURE-17CV1490"
+  source="U.S. District Court (E.D. Cal.), Verified Complaint for Forfeiture In Rem, Case 1:17-at-00557, ¶¶ 28–31"
+  significance="Physical recovery of active administrative sessions, server reboot execution, plaintext credential files, and net-worth document."
+  hashOrIdentifier="Cyber Exorcist Editorial Reference: DOJ-CIVIL-FORFEITURE-17AT0557"
 >
-  The verified forfeiture complaint details that Cazes was arrested at his Bangkok home with his laptop open, unencrypted, and logged into the AlphaBay server hosting environment as 'Admin'. Open text files stored on the computer contained plaintext passwords and passkeys for the infrastructure and an itemized ledger of his global assets. Note: These statements represent factual allegations set forth in a verified government complaint rather than a final contested judicial trial judgment.
+  The verified forfeiture complaint documents that Cazes was arrested at his Bangkok residence with his laptop open, unencrypted, and logged into the AlphaBay hosting server and forum administration interfaces as 'Admin'. Cazes had accessed the data center environment to execute a server reboot command following a law-enforcement-created outage and was actively responding to forum users. Open text files stored on the computer contained plaintext passwords and passkeys for infrastructure and online identities, alongside an itemized document estimating his total net worth at approximately $23,033,975. Note: These statements represent factual allegations set forth in a verified government complaint rather than final judicial trial findings.
 </EvidenceCard>
 
 <EvidenceCard
   id="EXHIBIT-B-02"
   title="Historical 2008 Forum Record"
   type="Court Filing Excerpt"
-  source="U.S. District Court (E.D. Cal.), Verified Civil Forfeiture Complaint, ¶ 21"
+  source="U.S. District Court (E.D. Cal.), Verified Complaint for Forfeiture In Rem, Case 1:17-at-00557, ¶ 21"
   significance="Provided the initial identity lead connecting the administrative alias 'Alpha02' to Alexandre Cazes."
   hashOrIdentifier="Cyber Exorcist Editorial Reference: COMMENT-CA-MARCHE-2008-POST"
 >
-  The forfeiture complaint documents that on December 3, 2008, a user posting under the pseudonym 'Alpha02' participated in a technical discussion on the French site Comment Ça Marche, submitting a post signed with the name Alexandre Cazes and listing the personal contact email Pimp_Alex_91@hotmail.com—the identical address identified in AlphaBay forum notification headers from December 2014. Note: The cited document describes this historical record as an investigative lead; Cyber Exorcist references the complaint's account rather than an independent original disk image of the forum.
+  The forfeiture complaint documents that on December 3, 2008, a user posting under the pseudonym 'Alpha02' participated in a technical discussion on the French site Comment Ça Marche, submitting a post signed with the legal name Alexandre Cazes and listing the personal contact email Pimp_Alex_91@hotmail.com—the identical address identified in AlphaBay forum notification headers from December 2014. Note: Cyber Exorcist references the complaint's account rather than an independent original disk image of the forum.
 </EvidenceCard>
 
 ---
@@ -358,7 +369,7 @@ Anonymity fails cumulatively. Alexandre Cazes utilized the pseudonym `Alpha02` a
 Automated web notification systems represent critical, high-risk attack surfaces. In secure infrastructure engineering:
 * **Dedicated Service Identities:** Outbound transactional notifications should originate exclusively from dedicated, non-personal system accounts (e.g., `noreply@service-domain.tld`).
 * **Personal Identity Isolation:** Personal administrative email addresses must never be hard-coded into application configurations, error-handling routines, or notification templates.
-* **Explicit Header & Envelope Sanitization:** Applications must explicitly configure the message header block (`From:`, `Reply-To:`) and ensure the mail transfer agent sets the transport envelope sender (`MAIL FROM`) appropriately. `Return-Path:` headers are prepended by the destination MTA and cannot be used to compensate for improper envelope parameters.
+* **Explicit Header & Envelope Sanitization:** Applications must explicitly configure the message header block (`From:`, `Reply-To:`) and ensure the mail transfer agent sets the transport envelope sender (`MAIL FROM`) appropriately. `Return-Path:` headers are prepended by the destination MTA upon mailbox delivery and cannot be used to compensate for improper envelope parameters.
 * **Header Inspection & Audit:** Automated continuous deployment pipelines should inspect raw outbound test messages using external mailboxes to verify that internal hostnames, debug information, or administrative identifiers do not leak through headers or transport routing.
 
 ### 3. Endpoint Security & The Limits of Encryption at Rest
@@ -372,7 +383,7 @@ Full-disk encryption (FDE) is an indispensable security baseline, but it protect
 <ReferenceList
   references={[
     {
-      title: "United States v. Any and All Assets of Alexandre Cazes (Verified Civil Forfeiture Complaint, Case 1:17-cv-01490)",
+      title: "United States v. Any and All Assets of Alexandre Cazes (Verified Complaint for Forfeiture In Rem, Case 1:17-at-00557)",
       url: "https://www.justice.gov/opa/press-release/file/982821/dl?inline=",
       organization: "U.S. Department of Justice (Eastern District of California) [Primary Source]",
       date: "July 19, 2017"
@@ -410,6 +421,12 @@ Full-disk encryption (FDE) is an indispensable security baseline, but it protect
     {
       title: "RFC 5322: Internet Message Format",
       url: "https://www.rfc-editor.org/rfc/rfc5322",
+      organization: "Internet Engineering Task Force (IETF) [Technical Standard]",
+      date: "October 2008"
+    },
+    {
+      title: "RFC 5321: Simple Mail Transfer Protocol",
+      url: "https://www.rfc-editor.org/rfc/rfc5321",
       organization: "Internet Engineering Task Force (IETF) [Technical Standard]",
       date: "October 2008"
     }
