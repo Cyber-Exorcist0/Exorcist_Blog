@@ -1,30 +1,34 @@
 ---
 title: "Operation Bayonet: The Fall of AlphaBay and Alexandre Cazes"
-subtitle: "How an automated forum welcome email unmasked the administrator of the dark web's largest illicit empire"
-description: "Deconstructing the fatal OPSEC failure in automated PHP mail headers that exposed AlphaBay creator Alexandre Cazes to FBI and DEA investigators."
+subtitle: "How automated forum email headers unmasked the administrator of the dark web's largest illicit empire"
+description: "Deconstructing the fatal OPSEC failure in automated forum notification headers that exposed AlphaBay creator Alexandre Cazes to international law enforcement."
 category: "Darknet & Underground Markets"
-tags: ["AlphaBay", "Operation Bayonet", "OPSEC", "Tor", "DEA", "Dark Web"]
+tags: ["AlphaBay", "Operation Bayonet", "OPSEC", "Tor", "DEA", "FBI", "Dark Web"]
 authors: ["Cyber Exorcist"]
 publication_date: "2024-02-18"
 updated_date: "2024-02-22"
 cover_image: "/images/cases/case-alphabay.svg"
-reading_time: "11 min read"
+reading_time: "14 min read"
 featured: false
 type: "investigation"
 status: "published"
 case_id: "CE-2017-07"
 threat_actor: "Alexandre Cazes ('Alpha02' / 'Admin')"
 target: "Global Illicit Darknet Commerce Ecosystem"
-impact: "$1 Billion+ in cumulative illicit darknet transactions"
+impact: "$1 Billion+ in cumulative illicit transactions across 250,000+ listings"
 references:
-  - title: "Justice Department Announces Takedown of AlphaBay, the Largest Darknet Market in History"
-    url: "https://www.justice.gov/opa/pr/justice-department-announces-takedown-alphabay-largest-darknet-market-history"
-    organization: "U.S. Department of Justice"
+  - title: "United States v. Any and All Assets of Alexandre Cazes (Verified Civil Forfeiture Complaint, Case 1:17-cv-01490)"
+    url: "https://www.justice.gov/opa/press-release/file/982821/dl?inline="
+    organization: "U.S. Department of Justice [Primary Source]"
+    date: "July 19, 2017"
+  - title: "AlphaBay, the Largest Online Dark Market in History, Shut Down"
+    url: "https://www.justice.gov/usao-edca/pr/alphabay-largest-online-dark-market-shut-down"
+    organization: "U.S. Attorney's Office, Eastern District of California [Primary Source]"
     date: "July 20, 2017"
-  - title: "Indictment: United States v. Alexandre Cazes"
-    url: "https://www.justice.gov/opa/press-release/file/983196/download"
-    organization: "U.S. District Court, Eastern District of California"
-    date: "June 1, 2017"
+  - title: "AlphaBay Series Part 2: The Fall of Pimp_Alex_91"
+    url: "https://www.wired.com/story/alphabay-series-part-2-pimp-alex-91/"
+    organization: "WIRED [Secondary Reporting]"
+    date: "December 6, 2022"
 ---
 
 import InvestigationTimeline from '../../components/article/InvestigationTimeline.astro';
@@ -37,48 +41,159 @@ import ReferenceList from '../../components/article/ReferenceList.astro';
 
 ## Executive Summary
 
-At its peak in early 2017, **AlphaBay** was ten times larger than the original Silk Road. The underground marketplace hosted over 250,000 listings for illegal narcotics, counterfeit identity documents, weapon blueprints, and cybercrime tools, serving over 400,000 registered buyers across the globe.
+At its peak in mid-2017, **AlphaBay** was the undisputed leviathan of darknet commerce—more than ten times the size of the original Silk Road. The marketplace hosted over 250,000 listings for illicit narcotics, counterfeit identification, malware kits, and stolen financial data, serving over 400,000 registered buyers and 40,000 vendors across the globe.
 
-Its architect, operating under the pseudonyms **Alpha02** and **Admin**, possessed elite operational security protocols—or so he believed. The operation was ultimately brought down not by an exploit against Tor's onion routing protocol or quantum cryptanalysis, but by an elementary infrastructure misconfiguration in AlphaBay's automated forum welcome scripts.
+Its founder and lead administrator, operating under the handles **Alpha02** and **Admin**, implemented rigorous server hardening and Tor hidden service protections. However, the multi-agency international coalition codenamed **Operation Bayonet** (spearheaded by the FBI, DEA, and Dutch National Police) breached Cazes's anonymity not through an exploit in Tor's onion routing protocol or cryptographic weaknesses, but through a fundamental operational security (OPSEC) failure: the leakage of his personal email address inside the headers of automated forum notification emails.
+
+In December 2014, when AlphaBay launched its dedicated discussion forums, automated welcome and password-recovery emails dispatched to newly registered users exposed the personal address **`Pimp_Alex_91@hotmail.com`** in their message header metadata. Investigators subsequently correlated this email with a legacy December 2008 post on a French technology forum where an individual named **Alexandre Cazes** posted under the username `Alpha02`, referencing that exact same Hotmail address. 
+
+On July 5, 2017, Thai authorities and federal agents raided Cazes's residence in Bangkok, Thailand. Cazes was arrested in his bedroom with his unencrypted laptop open, logged into the AlphaBay administrative server and forum console as `Admin`, actively messaging an overseas data center regarding an infrastructure outage. On July 12, 2017, Cazes died by apparent suicide while awaiting extradition in Thai custody, and on July 20, 2017, international authorities publicly announced the coordinated takedown of AlphaBay and Hansa Market.
 
 <KeyFindings
-  title="Key Investigative Discoveries"
+  title="Critical Case Discoveries"
   items={[
-    "Automated Header Leakage: During December 2014 launch, welcome emails dispatched by forum software included 'Pravatt@gmail.com' in the RFC 822 From-header.",
-    "Real-World Alias Correlation: 'Pravatt' was directly linked to a 2008 forum post by Alexandre Cazes, a Canadian computer programmer residing in Thailand.",
-    "Unencrypted Live Terminal Seizure: Royal Thai Police and FBI captured Cazes's laptop unlocked and open to the AlphaBay server management console."
+    "Automated Header Exposure [CONFIRMED]: Welcome and password-recovery emails dispatched by AlphaBay's forum during its December 2014 launch exposed 'Pimp_Alex_91@hotmail.com' in their header metadata.",
+    "Historical Alias Correlation [CONFIRMED]: A December 3, 2008 post on the French forum Comment Ça Marche by user 'Alpha02' contained both Alexandre Cazes's legal name and the identical Hotmail address.",
+    "Unlocked Laptop Seizure [CONFIRMED]: During the July 5, 2017 Bangkok raid, Cazes's unencrypted laptop was captured open in his bedroom, logged into AlphaBay's server management console and forums as 'Admin'.",
+    "Plaintext Credential Cache [CONFIRMED]: Investigators recovered open text files on the laptop containing passwords, server passkeys, and an itemized financial net-worth document listing Cazes's global cryptocurrency and physical assets.",
+    "Multi-Agency Takedown [CONFIRMED]: Operation Bayonet combined FBI, DEA, Dutch National Police, Europol, and Royal Thai Police in a coordinated takedown of both AlphaBay and the Dutch-infiltrated Hansa Market."
   ]}
 />
 
 ---
 
-## Technical Breakdown: The Mailer Header Leak
+## The Email Header Exposure: Anatomy of an OPSEC Breakdown
 
-<TechnicalBreakdown
-  title="The Unsanitized PHP mail() Header Leak"
-  topic="SERVER CONFIGURATION & SCRIPT FLAW"
-  complexity="Intermediate"
->
+In darknet operations, anonymity depends entirely on compartmentalization. The moment an off-network personal identifier touches an onion service workflow, the boundary collapses.
 
-When AlphaBay launched in late 2014, new user registrations prompted an automated confirmation email. Under standard PHP `mail()` configurations, if a server envelope sender is not strictly overridden in `php.ini` or function parameters, PHP defaults to the local system user or the administrative contact address:
+### 1. Documented Header Exposure
 
-```http
-Date: Sun, 21 Dec 2014 18:42:01 -0500
-To: target-researcher@protonmail.com
-Subject: Welcome to the AlphaBay Market Forum
-From: AlphaBay Market <Pravatt@gmail.com>
-Reply-To: Pravatt@gmail.com
-X-Mailer: PHPMailer 5.2.8 (https://github.com/PHPMailer/PHPMailer/)
-Message-ID: <029f8a31dc190a9@alphabay.market>
+According to the official Department of Justice civil forfeiture complaint (*United States v. Any and All Assets of Alexandre Cazes*, Case 1:17-cv-01490):
+
+1. When AlphaBay launched in December 2014, its community forum required users to register with an email address for verification and account recovery.
+2. When a user created an account, the forum dispatched an automated welcome message.
+3. The personal email address **`Pimp_Alex_91@hotmail.com`** appeared directly within the header information of these welcome emails.
+4. The same Hotmail address appeared in the header information of automated password-reset emails sent to forum members.
+
+```text
+[ New User Registration on AlphaBay Forum ]
+                     │
+                     ▼ (Forum software generates welcome notification)
+[ Mail Transfer Agent / SMTP Dispatch Pipeline ]
+                     │
+                     ▼ (Exposes personal administrator address in message headers)
+┌────────────────────────────────────────────────────────────────────────┐
+│ RFC 5322 Email Message Headers:                                        │
+│ From: "AlphaBay Market" <Pimp_Alex_91@hotmail.com>                     │
+│ Return-Path: <Pimp_Alex_91@hotmail.com>                                │
+│ Subject: Welcome to the AlphaBay Market Forum                          │
+│ Date: December 2014                                                    │
+└────────────────────────────────────────────────────────────────────────┘
+                     │
+                     ▼ (Investigators extract header metadata)
+┌────────────────────────────────────────────────────────────────────────┐
+│ Historical Pivot: December 3, 2008 French Tech Forum Post               │
+│ - Platform: Comment Ça Marche (commentcamarche.net)                    │
+│ - Username: Alpha02                                                    │
+│ - Author Signature: Alexandre Cazes                                    │
+│ - Contact Address: Pimp_Alex_91@hotmail.com                            │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-This single string—`Pravatt@gmail.com`—was recorded by researchers and law enforcement. Federal investigators searched legacy internet archives and uncovered a 2008 post on a French technology forum (`commentcamarche.net`) where an individual named **Alexandre Cazes** concluded a technical programming post with the signature:
+### 2. Technical Interpretation: Email Protocol Metadata
 
-`Alexandre Cazes -- Pravatt@gmail.com`
+Email delivery relies on the Simple Mail Transfer Protocol (SMTP) and the Internet Message Format standard (RFC 5322). Email messages consist of two layers:
 
-From that moment onward, the identity of the world's most hunted darknet administrator was known to the FBI, DEA, and RCMP.
+* **Envelope Metadata (SMTP Transmission):** The `MAIL FROM` envelope sender communicated during the SMTP handshake (which specifies the `Return-Path` destination for non-delivery notifications / bounces).
+* **Message Headers (MIME Body):** The user-visible header block containing fields like `From:`, `To:`, `Subject:`, `Date:`, `Message-ID:`, `Received:`, and `Reply-To:`.
 
-</TechnicalBreakdown>
+When automated web applications dispatch notifications, the sender identity must be strictly configured. If an administrator configures an application with a personal address—or tests notification scripts using a personal mailbox during staging and forgets to scrub the configuration before deploying to production—the personal address is embedded in headers dispatched to every registering user.
+
+<EditorialAlert type="analysis" title="INVESTIGATIVE SIGNIFICANCE: MULTI-STEP CORRELATION">
+  The email header did not automatically expose Cazes's physical location; rather, it provided the pivotal anchor. By correlating `Pimp_Alex_91@hotmail.com` with open-source intelligence (OSINT), investigators located a 2008 post on `commentcamarche.net` where the username `Alpha02` was signed by "Alexandre Cazes" with that exact email. Because the lead administrator of AlphaBay operated under the identical handle `Alpha02`, law enforcement established a high-confidence connection between Cazes and the darknet empire.
+</EditorialAlert>
+
+### 3. Illustrative Reconstruction: How Administrative Mail Headers Leak
+
+<EditorialAlert type="warning" title="ILLUSTRATIVE EXPLANATION — NOT CONFIRMED ALPHABAY SOURCE CODE">
+  The exact backend mailer script, server configuration files, and software version used by AlphaBay are not detailed in public court filings. The following code is an illustrative technical explanation demonstrating how an automated notification script can inadvertently inject an administrator's personal email address into outbound headers.
+</EditorialAlert>
+
+```php
+// ILLUSTRATIVE EXPLANATION: How notification scripts expose admin headers
+// (Conceptual model demonstrating header injection)
+function dispatch_forum_welcome_email($recipient_email, $username) {
+    $subject = "Welcome to the AlphaBay Market Forum";
+    
+    // FLAW: Administrator hardcodes personal email during initial testing
+    // or system defaults to administrative contact configuration
+    $admin_email = "Pimp_Alex_91@hotmail.com"; 
+
+    $headers = array(
+        'From' => 'AlphaBay Market <' . $admin_email . '>',
+        'Reply-To' => $admin_email,
+        'X-Mailer' => 'Automated-Forum-Engine',
+        'MIME-Version' => '1.0',
+        'Content-Type' => 'text/html; charset=UTF-8'
+    );
+
+    // If sent via standard mail APIs without envelope override,
+    // the address appears in From, Reply-To, and Return-Path
+    mail($recipient_email, $subject, "Welcome {$username}!", $headers);
+}
+```
+
+---
+
+## The Attack Chain: Operation Bayonet Lifecycle
+
+<AttackChain
+  title="Operation Bayonet: AlphaBay De-Anonymization Lifecycle"
+  stages={[
+    {
+      number: 1,
+      phase: "Initial Exposure [CONFIRMED]",
+      action: "Forum Header Metadata Leakage",
+      technicalVector: "AlphaBay forum welcome and password-recovery emails broadcast 'Pimp_Alex_91@hotmail.com' in RFC message headers upon launch in December 2014.",
+      mitigationOrDetection: "Enforce strict automated configuration linting and deploy dedicated dummy relay addresses for outbound transactional notifications."
+    },
+    {
+      number: 2,
+      phase: "Identity Correlation [CONFIRMED]",
+      action: "Historical OSINT Linkage",
+      technicalVector: "Law enforcement identified a December 3, 2008 post on French forum Comment Ça Marche by 'Alpha02' linking the Hotmail address to Alexandre Cazes.",
+      mitigationOrDetection: "Complete operational sanitization and avoidance of pseudonym or email reuse across distinct operational personas."
+    },
+    {
+      number: 3,
+      phase: "Asset & Location Mapping [CONFIRMED]",
+      action: "Financial Tracing & Physical Surveillance",
+      technicalVector: "Investigators tracked luxury vehicles, bank accounts, and real estate purchases in Bangkok, Phuket, and Cyprus funded by darknet commission fees.",
+      mitigationOrDetection: "Comprehensive financial monitoring of cryptocurrency-to-fiat off-ramps and cross-border bank wire transfers."
+    },
+    {
+      number: 4,
+      phase: "Infrastructure Interception [CONFIRMED]",
+      action: "Simulated Data Center Outage",
+      technicalVector: "Law enforcement coordinated an intentional disruption of AlphaBay's overseas hosting infrastructure to force administrator triage.",
+      mitigationOrDetection: "Automated distributed failover systems and out-of-band encrypted administrative emergency protocols."
+    },
+    {
+      number: 5,
+      phase: "Physical Arrest & Device Seizure [CONFIRMED]",
+      action: "Unencrypted Endpoint Capture",
+      technicalVector: "Thai tactical units arrested Cazes at his Bangkok home; his laptop was open, decrypted, and actively logged into the server console as 'Admin'.",
+      mitigationOrDetection: "Strict physical endpoint security, aggressive auto-lock timers, full-disk encryption, and dead-man session termination switches."
+    },
+    {
+      number: 6,
+      phase: "Evidence Recovery [CONFIRMED]",
+      action: "Plaintext Credential Extraction",
+      technicalVector: "Recovered unencrypted text files listing passwords/passkeys for the website, servers, and hot wallets, alongside an itemized personal asset statement.",
+      mitigationOrDetection: "Enforce hardware-backed multi-factor authentication (MFA) and encrypted key-management vaults rather than plaintext notes."
+    }
+  ]}
+/>
 
 ---
 
@@ -87,23 +202,51 @@ From that moment onward, the identity of the world's most hunted darknet adminis
 <InvestigationTimeline
   events={[
     {
+      date: "December 3, 2008",
+      title: "Historical Comment Ça Marche Forum Post [CONFIRMED]",
+      description: "A user posting under the pseudonym 'Alpha02' participates in a technical discussion on the French forum Comment Ça Marche, signing the post with the name 'Alexandre Cazes' and the email 'Pimp_Alex_91@hotmail.com'.",
+      evidenceRef: "DOJ Forfeiture Complaint, ¶ 21",
+      type: "recon"
+    },
+    {
       date: "December 2014",
-      title: "AlphaBay Goes Live",
-      description: "AlphaBay launches as an escrow marketplace. Welcome emails inadvertently broadcast 'Pravatt@gmail.com' in plaintext headers.",
-      evidenceRef: "LE-HEADER-2014",
+      title: "AlphaBay Marketplace & Forum Launch [CONFIRMED]",
+      description: "AlphaBay launches on the Tor network. Automated welcome and password-recovery emails sent to early forum registrants expose 'Pimp_Alex_91@hotmail.com' in their header metadata.",
+      evidenceRef: "DOJ Forfeiture Complaint, ¶ 19",
       type: "incident"
     },
     {
-      date: "December 2016",
-      title: "Operation Bayonet Conceived",
-      description: "Multi-national task force (FBI, DEA, Europol, Dutch Police, RCMP) begins mapping Cazes's physical assets in Bangkok, Thailand.",
+      date: "2016",
+      title: "Law Enforcement Identifies Email Anchor [CONFIRMED]",
+      description: "Federal investigators inspecting early AlphaBay forum communications discover the exposed Hotmail address and correlate it with Cazes's 2008 forum record and Canadian corporate filings.",
+      evidenceRef: "DOJ Forfeiture Complaint, ¶ 20",
+      type: "forensic"
+    },
+    {
+      date: "December 2016–Early 2017",
+      title: "Operation Bayonet Coalition Formed [CONFIRMED]",
+      description: "The FBI, DEA, Dutch National Police, Europol, and Royal Thai Police establish a joint task force to coordinate the simultaneous takedown of AlphaBay and takeover of Hansa Market.",
       type: "legal"
     },
     {
       date: "July 5, 2017",
-      title: "The Bangkok Raid & Unlocked Mac Capture",
-      description: "Thai tactical police ram Cazes's residence gate as a diversion. Cazes runs to the balcony, leaving his MacBook Pro booted and decrypted with administrative credentials active.",
-      evidenceRef: "EVID-BANGKOK-01",
+      title: "Bangkok Raid & Unencrypted Laptop Seizure [CONFIRMED]",
+      description: "Thai authorities arrest Cazes at his Bangkok residence. His laptop is captured open in his bedroom, logged into the AlphaBay server and forum backend as 'Admin', with open files listing administrative passwords and assets.",
+      evidenceRef: "DOJ Forfeiture Complaint, ¶¶ 28–30",
+      type: "legal"
+    },
+    {
+      date: "July 12, 2017",
+      title: "Alexandre Cazes In-Custody Death [CONFIRMED]",
+      description: "While in custody at the Narcotics Suppression Bureau in Bangkok awaiting extradition to the United States, Alexandre Cazes is found dead of an apparent suicide in his cell.",
+      evidenceRef: "Thai Police / DOJ Official Announcement",
+      type: "legal"
+    },
+    {
+      date: "July 20, 2017",
+      title: "International Takedown Announcement [CONFIRMED]",
+      description: "U.S. Attorney General Jeff Sessions, FBI Director Andrew McCabe, and European law enforcement announce the seizure of AlphaBay and the undercover operation on Hansa Market.",
+      evidenceRef: "DOJ Press Release (July 20, 2017)",
       type: "legal"
     }
   ]}
@@ -111,32 +254,77 @@ From that moment onward, the identity of the world's most hunted darknet adminis
 
 ---
 
+## The Laptop Discovery: Endpoint Security Breakdown
+
+On the morning of July 5, 2017, Royal Thai Police officers, accompanied by DEA and FBI liaisons, executed a provisional arrest warrant at Cazes's primary residence in Bangkok, Thailand.
+
+Paragraphs 28–31 of the DOJ civil forfeiture complaint document the critical endpoint seizure:
+
+1. **Active Administrative Session:** Cazes's laptop computer was open, powered on, and completely unencrypted in his bedroom.
+2. **Administrative Access:** The laptop was logged into the server hosting the AlphaBay website under the account handle `Admin`.
+3. **Forum Administrative Control:** The laptop was simultaneously logged into the AlphaBay forums under the handle `Admin`.
+4. **Active Communications:** Cazes was actively engaged in a live chat conversation with an overseas data center, attempting to troubleshoot a server outage engineered by law enforcement to confirm his administrative control.
+5. **Open Password Files:** Investigators discovered open, unencrypted text files on the laptop containing passwords and passkeys for the AlphaBay website, its hosting servers, and various online accounts used by the administration.
+6. **Net-Worth Ledger:** Investigators recovered a comprehensive document detailing Cazes's global net worth, itemizing bank accounts, luxury vehicles (including a Lamborghini and Porsche), properties, and cryptocurrency holdings across Bitcoin, Ethereum, and Monero.
+
 <EvidenceCard
-  id="EXHIBIT-C-19"
-  title="The Open Console Live RAM Image"
-  type="Memory Dump"
-  source="FBI Forensic Examination Report, Eastern District of California"
-  significance="Provided complete administrative keys, database passwords, and hot wallet seeds."
-  hashOrIdentifier="SHA256: 9e32a10408d661b18360a8b9487fa10b938fec293818e77a16b"
+  id="EXHIBIT-A-01"
+  title="The Unencrypted Administrative Laptop"
+  type="Court Filing"
+  source="U.S. District Court (E.D. Cal.), Civil Forfeiture Complaint, ¶¶ 28–31"
+  significance="Physical recovery of decrypted administrator sessions and master passwords."
+  hashOrIdentifier="Editorial Ref: DOJ-CIVIL-FORFEITURE-17CV1490"
 >
-  Upon entering Cazes's residence, investigators found him logged into the AlphaBay administrative server panel under the handle 'Admin'. Text files on the desktop contained unencrypted private keys for AlphaBay's Bitcoin, Monero, and Ethereum hot wallets, resulting in instantaneous asset seizure.
+  The official forfeiture complaint details that Cazes was caught at his Bangkok residence with his laptop booted, unencrypted, and actively logged into the AlphaBay server hosting environment as 'Admin'. Open text files stored on the machine contained plaintext passwords for the infrastructure and an itemized ledger of his global assets.
 </EvidenceCard>
+
+<EvidenceCard
+  id="EXHIBIT-B-02"
+  title="Historical 2008 Forum Attribution Record"
+  type="Court Filing"
+  source="U.S. District Court (E.D. Cal.), Civil Forfeiture Complaint, ¶ 21"
+  significance="Proved personal attribution connecting Alpha02 to Alexandre Cazes."
+  hashOrIdentifier="Editorial Ref: COMMENT-CA-MARCHE-2008-POST"
+>
+  The forfeiture complaint establishes that a December 3, 2008 post on the French technical site Comment Ça Marche under the username 'Alpha02' listed the name Alexandre Cazes and the contact email Pimp_Alex_91@hotmail.com—the identical address leaked in AlphaBay forum headers in December 2014.
+</EvidenceCard>
+
+---
+
+## Defensive Engineering & Operational Security Lessons
+
+The demise of AlphaBay provides fundamental lessons in digital forensics and defensive architecture:
+
+### 1. Identity Segregation and the Peril of Persona Reuse
+Anonymity is broken retrospectively. Cazes used the handle `Alpha02` and his personal Hotmail address in 2008 for harmless programming discussions. Six years later, when creating the world's largest darknet market, he reused the same handle and allowed his personal email to enter notification scripts. Defenders and threat hunters routinely correlate historical OSINT datasets across decades to deanonymize actors.
+
+### 2. Transactional Notification Isolation
+Automated web notification systems must be treated as untrusted boundaries. All outbound email headers (`From:`, `Return-Path:`, `Sender:`) must be dynamically generated from isolated, hardened system templates and vetted through automated CI/CD security linters before production deployment.
+
+### 3. Endpoint Security and Full-Disk Encryption at Rest
+An unencrypted, booted laptop bypasses all full-disk encryption (FDE) protections. Cazes's failure to configure short session timeouts, hardware authentication tokens, or emergency dead-man switches allowed investigators to capture the entire administrative ecosystem live in memory.
 
 ---
 
 <ReferenceList
   references={[
     {
-      title: "DOJ Announcement: AlphaBay, Largest Darknet Market in History, Shut Down",
-      url: "https://www.justice.gov/opa/pr/justice-department-announces-takedown-alphabay-largest-darknet-market-history",
-      organization: "Department of Justice",
-      date: "July 2017"
+      title: "United States v. Any and All Assets of Alexandre Cazes: Verified Civil Forfeiture Complaint (1:17-cv-01490)",
+      url: "https://www.justice.gov/opa/press-release/file/982821/dl?inline=",
+      organization: "U.S. Department of Justice (Eastern District of California) [Primary Source]",
+      date: "July 19, 2017"
     },
     {
-      title: "Europol: Massive Blow to Criminal Dark Web Activities After Operation Bayonet",
-      url: "https://www.europol.europa.eu/newsroom/news",
-      organization: "Europol Joint Action Taskforce",
-      date: "July 2017"
+      title: "AlphaBay, the Largest Online Dark Market in History, Shut Down",
+      url: "https://www.justice.gov/usao-edca/pr/alphabay-largest-online-dark-market-shut-down",
+      organization: "U.S. Attorney's Office (Eastern District of California) [Primary Source]",
+      date: "July 20, 2017"
+    },
+    {
+      title: "AlphaBay Series Part 2: The Fall of Pimp_Alex_91",
+      url: "https://www.wired.com/story/alphabay-series-part-2-pimp-alex-91/",
+      organization: "WIRED [Secondary Reporting]",
+      date: "December 6, 2022"
     }
   ]}
 />
