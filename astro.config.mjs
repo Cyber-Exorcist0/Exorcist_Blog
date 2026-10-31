@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // Supports both root custom domain and GitHub Pages repo path deployment
 const siteUrl = process.env.SITE_URL || 'https://cyber-exorcist0.github.io';
-const basePath = process.env.BASE_PATH || '/';
+const basePath = process.env.BASE_PATH || '/Exorcist_Blog';
 
 export default defineConfig({
   site: siteUrl,
