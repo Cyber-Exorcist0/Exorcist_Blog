@@ -1,0 +1,31 @@
+---
+interface Props {
+  title?: string;
+  items: string[];
+}
+
+const { title = "Key Investigative Findings", items } = Astro.props;
+---
+
+<div class="my-8 p-6 rounded-lg bg-gradient-to-br from-exo-card to-exo-secondary border border-exo-primary/40 relative overflow-hidden shadow-lg">
+  <!-- Accent top line -->
+  <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-exo-primary via-exo-accent to-exo-primary"></div>
+
+  <div class="flex items-center gap-2 mb-4">
+    <svg class="w-5 h-5 text-exo-primary flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+    </svg>
+    <h3 class="text-base font-mono font-bold tracking-wider uppercase text-white m-0">
+      {title}
+    </h3>
+  </div>
+
+  <ul class="space-y-3 m-0 p-0 list-none">
+    {items.map((item) => (
+      <li class="flex items-start gap-3 text-sm md:text-base text-slate-200 leading-relaxed">
+        <span class="text-exo-primary font-mono font-bold text-base mt-0.5 select-none">›</span>
+        <span>{item}</span>
+      </li>
+    ))}
+  </ul>
+</div>

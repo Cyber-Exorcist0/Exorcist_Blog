@@ -1,0 +1,57 @@
+---
+interface ReferenceItem {
+  title: string;
+  url: string;
+  organization?: string;
+  date?: string;
+}
+
+interface Props {
+  references: ReferenceItem[];
+}
+
+const { references } = Astro.props;
+---
+
+<div class="my-10 pt-6 border-t border-exo-border">
+  <div class="flex items-center gap-2 mb-6">
+    <div class="w-2.5 h-2.5 bg-exo-primary rounded-full"></div>
+    <h3 class="text-base font-mono font-bold uppercase tracking-widest text-white m-0">
+      Verified Primary Sources &amp; References
+    </h3>
+  </div>
+
+  <ol class="space-y-4 list-none p-0 m-0">
+    {references.map((ref, idx) => (
+      <li class="p-3.5 rounded bg-exo-secondary/60 border border-exo-border/80 hover:border-exo-primary/40 transition-colors flex items-start gap-3">
+        <span class="font-mono text-xs font-bold text-exo-primary bg-exo-card px-2 py-1 rounded border border-exo-border flex-shrink-0">
+          [{idx + 1}]
+        </span>
+        <div class="flex-1 min-w-0">
+          <a
+            href={ref.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm font-medium text-slate-200 hover:text-exo-primary inline-flex items-center gap-1.5 transition-colors group"
+          >
+            <span class="underline decoration-slate-600 underline-offset-4 group-hover:decoration-exo-primary">
+              {ref.title}
+            </span>
+            <svg class="w-3.5 h-3.5 text-exo-muted group-hover:text-exo-primary flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
+            </svg>
+          </a>
+          <div class="flex flex-wrap items-center gap-3 mt-1.5 font-mono text-[11px] text-slate-400">
+            {ref.organization && (
+              <span>ORG: <strong class="text-slate-300 font-normal">{ref.organization}</strong></span>
+            )}
+            {ref.date && (
+              <span>DATE: <span class="text-slate-300">{ref.date}</span></span>
+            )}
+            <span class="text-slate-400 truncate max-w-xs">{ref.url}</span>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>

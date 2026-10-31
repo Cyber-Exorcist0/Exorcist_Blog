@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const investigations = await getCollection('investigations');
+  return investigations.map((entry) => ({
+    params: { slug: entry.id.replace(/\.(md|mdx)$/, '') },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+
+const allAuthors = await getCollection('authors');
+const allAuthorsData = allAuthors.map((a) => a.data);
+
+const allInvestigations = await getCollection('investigations');
+const searchItems = allInvestigations.map((item) => ({
+  title: item.data.title,
+  slug: item.id.replace(/\.(md|mdx)$/, ''),
+  description: item.data.description,
+  category: item.data.category,
+  caseId: item.data.case_id,
+  tags: item.data.tags
+}));
+---
+
+<ArticleLayout
+  title={entry.data.title}
+  subtitle={entry.data.subtitle}
+  description={entry.data.description}
+  category={entry.data.category}
+  publicationDate={entry.data.publication_date}
+  updatedDate={entry.data.updated_date}
+  readingTime={entry.data.reading_time}
+  coverImage={entry.data.cover_image}
+  authors={entry.data.authors}
+  caseId={entry.data.case_id}
+  threatActor={entry.data.threat_actor}
+  target={entry.data.target}
+  impact={entry.data.impact}
+  type={entry.data.type}
+  headings={headings}
+  searchItems={searchItems}
+  allAuthorsData={allAuthorsData}
+>
+  <Content />
+</ArticleLayout>

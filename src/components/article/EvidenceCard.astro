@@ -1,0 +1,64 @@
+---
+interface Props {
+  id?: string;
+  title: string;
+  type: 'Blockchain Ledger' | 'Forensic Hardware' | 'Court Filing' | 'Memory Dump' | 'Network Log' | 'Source Code' | 'Physical Evidence';
+  source: string;
+  significance: string;
+  hashOrIdentifier?: string;
+}
+
+const { id, title, type, source, significance, hashOrIdentifier } = Astro.props;
+
+const typeColors: Record<string, string> = {
+  'Blockchain Ledger': 'text-cyan-400 border-cyan-500/30 bg-cyan-950/20',
+  'Forensic Hardware': 'text-amber-400 border-amber-500/30 bg-amber-950/20',
+  'Court Filing': 'text-purple-400 border-purple-500/30 bg-purple-950/20',
+  'Memory Dump': 'text-emerald-400 border-emerald-500/30 bg-emerald-950/20',
+  'Network Log': 'text-blue-400 border-blue-500/30 bg-blue-950/20',
+  'Source Code': 'text-rose-400 border-rose-500/30 bg-rose-950/20',
+  'Physical Evidence': 'text-orange-400 border-orange-500/30 bg-orange-950/20'
+};
+
+const badgeClass = typeColors[type] || 'text-slate-300 border-slate-700 bg-slate-800';
+---
+
+<div class="my-6 p-5 rounded-lg bg-exo-card border border-exo-border hover:border-exo-primary/40 transition-all shadow-md">
+  <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-exo-border">
+    <div class="flex items-center gap-2">
+      {id && (
+        <span class="font-mono text-xs font-bold text-slate-400 bg-exo-secondary px-2 py-0.5 rounded border border-exo-border">
+          {id}
+        </span>
+      )}
+      <h4 class="text-base font-bold text-white m-0">{title}</h4>
+    </div>
+    <span class={`font-mono text-[11px] px-2.5 py-0.5 rounded border uppercase font-medium ${badgeClass}`}>
+      {type}
+    </span>
+  </div>
+
+  <div class="space-y-3 text-sm">
+    <div class="text-slate-300 leading-relaxed">
+      <slot />
+    </div>
+
+    {hashOrIdentifier && (
+      <div class="p-2.5 rounded bg-exo-bg border border-exo-border/80 font-mono text-xs text-exo-primary flex items-center justify-between overflow-x-auto">
+        <span class="text-slate-400 font-semibold mr-2 flex-shrink-0">IDENTIFIER:</span>
+        <code class="text-xs break-all text-slate-200">{hashOrIdentifier}</code>
+      </div>
+    )}
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-2 text-xs font-mono">
+      <div class="p-2 rounded bg-exo-secondary/60 border border-exo-border">
+        <span class="text-slate-400 block mb-1">ORIGIN / SOURCE:</span>
+        <span class="text-slate-200">{source}</span>
+      </div>
+      <div class="p-2 rounded bg-exo-secondary/60 border border-exo-border">
+        <span class="text-slate-400 block mb-1">FORENSIC SIGNIFICANCE:</span>
+        <span class="text-exo-primary">{significance}</span>
+      </div>
+    </div>
+  </div>
+</div>

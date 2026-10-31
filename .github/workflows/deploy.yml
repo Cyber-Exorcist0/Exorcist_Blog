@@ -1,0 +1,61 @@
+name: Deploy CYBER EXORCIST to GitHub Pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Static Site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Configure GitHub Pages Base & Domain
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Astro Static Output
+        env:
+          # Automatically injects repository subpath for standard github.io/repo deployments,
+          # or empty string/slash if deployed with a custom domain CNAME!
+          BASE_PATH: ${{ steps.pages.outputs.base_path || '/' }}
+          SITE_URL: ${{ steps.pages.outputs.origin || 'https://cyberexorcist.publication' }}
+        run: npm run build
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+  deploy:
+    name: Deploy to GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

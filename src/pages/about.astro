@@ -1,0 +1,228 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { url } from '../utils/base';
+
+const allAuthors = await getCollection('authors');
+const allInvestigations = await getCollection('investigations');
+
+const searchItems = allInvestigations.map((item) => ({
+  title: item.data.title,
+  slug: item.id.replace(/\.(md|mdx)$/, ''),
+  description: item.data.description,
+  category: item.data.category,
+  caseId: item.data.case_id,
+  tags: item.data.tags
+}));
+---
+
+<BaseLayout
+  title="About Cyber Exorcist | Independent Cybercrime Research Publication"
+  description="Learn about the mission, editorial methodology, verification standards, and researchers behind Cyber Exorcist."
+  searchItems={searchItems}
+>
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 space-y-16">
+    <!-- Header Mission Statement -->
+    <header class="space-y-4 text-center md:text-left border-b border-exo-border pb-12">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-exo-secondary border border-exo-border text-xs font-mono text-exo-primary">
+        <span class="w-2 h-2 rounded-full bg-exo-primary"></span>
+        ABOUT_THE_PUBLICATION // MISSION_STATEMENT
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
+        About Cyber Exorcist
+      </h1>
+      <p class="text-lg sm:text-xl font-mono text-exo-primary leading-relaxed">
+        Exposing the Anatomy of Digital Crime.
+      </p>
+      <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-4xl pt-2">
+        Cyber Exorcist is a personal technical publication exploring the intersection of cybercrime, technology, and digital investigations.
+        As a Computer Engineer navigating my way through cybersecurity, I created this blog to independently research and document how cybercriminal operations work, how vulnerabilities are exploited, how investigations unfold, and what can be learned from an engineering standpoint.
+        This blog is operated, researched, and written entirely on my own—no external team or agency. My focus is on understanding the real technical mechanics and digital forensic evidence behind notable cases.
+      </p>
+    </header>
+
+    <!-- Two Dimensions Framework -->
+    <section class="space-y-6">
+      <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+        <span class="text-exo-primary font-mono text-lg">01.</span>
+        The Dual Investigation Model
+      </h2>
+      <p class="text-slate-300 leading-relaxed">
+        Generic cybersecurity blogs often reduce incidents to a sensationalized headline or a dry list of IOC hashes. Cyber Exorcist investigates cases across two interconnected dimensions:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+        <!-- Dimension A: The Human Story -->
+        <div class="p-6 rounded-xl bg-exo-secondary border border-exo-border space-y-3">
+          <div class="flex items-center gap-2 font-mono text-xs text-exo-primary font-bold uppercase">
+            <span class="w-2 h-2 rounded-full bg-exo-primary"></span>
+            DIMENSION A: THE HUMAN STORY
+          </div>
+          <h3 class="text-lg font-bold text-white">Narrative, Motivations &amp; Law Enforcement</h3>
+          <ul class="text-xs sm:text-sm text-slate-300 space-y-2 list-none p-0">
+            <li class="flex items-start gap-2">
+              <span class="text-exo-primary font-bold">›</span>
+              <span><strong>Perpetrator profiling:</strong> Who was behind the operation, and how did they coordinate?</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-exo-primary font-bold">›</span>
+              <span><strong>Operational evolution:</strong> How did underground infrastructure scale?</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-exo-primary font-bold">›</span>
+              <span><strong>Investigative response:</strong> How did international law enforcement unmask the perpetrators?</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-exo-primary font-bold">›</span>
+              <span><strong>Legal adjudication:</strong> Sentences, court judgments, and judicial consequences.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Dimension B: The Technical Anatomy -->
+        <div class="p-6 rounded-xl bg-exo-secondary border border-exo-border space-y-3">
+          <div class="flex items-center gap-2 font-mono text-xs text-purple-400 font-bold uppercase">
+            <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+            DIMENSION B: THE TECHNICAL ANATOMY
+          </div>
+          <h3 class="text-lg font-bold text-white">Vulnerabilities, Binary Code &amp; Forensics</h3>
+          <ul class="text-xs sm:text-sm text-slate-300 space-y-2 list-none p-0">
+            <li class="flex items-start gap-2">
+              <span class="text-purple-400 font-bold">›</span>
+              <span><strong>Exploit mechanisms:</strong> In-depth examination of root-cause logic flaws and CVEs.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-purple-400 font-bold">›</span>
+              <span><strong>Malware dissection:</strong> Disassembly, API hooking, and cryptographic algorithms.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-purple-400 font-bold">›</span>
+              <span><strong>Digital evidence:</strong> Disk, memory, network telemetry, and blockchain heuristics.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-purple-400 font-bold">›</span>
+              <span><strong>Defensive lessons:</strong> Actionable engineering takeaways for modern blue teams.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research Methodology -->
+    <section id="methodology" class="space-y-6 pt-4 border-t border-exo-border">
+      <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+        <span class="text-exo-primary font-mono text-lg">02.</span>
+        Research &amp; Verification Methodology
+      </h2>
+      <p class="text-slate-300 leading-relaxed">
+        We adhere to strict research standards to protect editorial integrity and technical fidelity:
+      </p>
+
+      <div class="space-y-4 text-sm text-slate-300">
+        <div class="p-4 rounded-lg bg-exo-card border border-exo-border">
+          <h4 class="font-bold text-white font-mono text-xs uppercase mb-1 text-exo-primary">
+            1. Primary Source Prioritization
+          </h4>
+          <p>
+            Whenever possible, investigations rely on primary sources: unsealed court records, affidavits, sentencing memorandums, on-chain blockchain transaction graphs, decompiled binaries, and declassified government advisories.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-lg bg-exo-card border border-exo-border">
+          <h4 class="font-bold text-white font-mono text-xs uppercase mb-1 text-exo-primary">
+            2. Distinction Between Proven Facts and Allegations
+          </h4>
+          <p>
+            We strictly differentiate between adjudicated court findings, unproven indictment claims, leaked raw communications, and analytical hypotheses. Explicit warning badges alert readers to the evidentiary standing of every claim.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-lg bg-exo-card border border-exo-border">
+          <h4 class="font-bold text-white font-mono text-xs uppercase mb-1 text-exo-primary">
+            3. Pure Defensive &amp; Educational Purpose
+          </h4>
+          <p>
+            Cyber Exorcist does not publish active weaponized 0-day exploit code or promote unauthorized intrusions. Code samples are curated strictly to illuminate root vulnerabilities and defensive remediation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About the Author -->
+    <section class="space-y-6 pt-4 border-t border-exo-border">
+      <div class="space-y-2">
+        <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+          <span class="text-exo-primary font-mono text-lg">03.</span>
+          About the Author &amp; Independent Research
+        </h2>
+        <p class="text-sm text-slate-400">
+          Cyber Exorcist is operated and authored on my own as a Computer Engineer studying cybersecurity. There is no team or institutional backing behind the blog—just personal technical research and continuous learning.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 gap-6">
+        {allAuthors.map((author) => (
+          <div class="p-6 rounded-xl bg-exo-secondary border border-exo-border flex flex-col sm:flex-row items-start gap-6">
+            <img
+              src={url(author.data.avatar)}
+              alt={author.data.name}
+              class="w-20 h-20 rounded-xl border border-exo-border flex-shrink-0 object-cover"
+            />
+            <div class="space-y-2 flex-1">
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-white m-0">
+                  <a href={url(`/authors/${author.data.id}`)} class="hover:text-exo-primary transition-colors">
+                    {author.data.name}
+                  </a>
+                </h3>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-exo-card border border-exo-primary/40 text-exo-primary font-semibold">
+                  COMPUTER ENGINEER // AUTHOR
+                </span>
+              </div>
+              <p class="text-xs font-mono text-exo-primary">{author.data.role}</p>
+              <p class="text-xs text-slate-300 leading-relaxed">{author.data.bio}</p>
+              {author.data.id === 'cyber-exorcist' && (
+                <div class="flex items-center gap-3 pt-1 text-xs font-mono text-slate-400">
+                  <a href="https://github.com/Cyber-Exorcist0" target="_blank" rel="noopener noreferrer" class="hover:text-exo-primary flex items-center gap-1">
+                    GitHub &rarr;
+                  </a>
+                  <a href="https://www.linkedin.com/in/cyber-exorcist0/" target="_blank" rel="noopener noreferrer" class="hover:text-exo-primary flex items-center gap-1">
+                    LinkedIn &rarr;
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Collaboration Opportunities & Disclosure -->
+    <section class="space-y-6 pt-4 border-t border-exo-border">
+      <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+        <span class="text-exo-primary font-mono text-lg">04.</span>
+        Collaboration &amp; Research Contributions
+      </h2>
+      <p class="text-slate-300 leading-relaxed">
+        We welcome discussions with fellow independent researchers, digital forensic practitioners, and reverse engineers. Connect directly via GitHub or LinkedIn.
+      </p>
+
+      <div class="p-6 rounded-xl bg-exo-secondary border border-exo-border flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h4 class="text-base font-bold text-white">Have a research proposal or discussion?</h4>
+          <p class="text-xs font-mono text-slate-400 mt-1">Connect with Cyber Exorcist on LinkedIn or GitHub.</p>
+        </div>
+        <div class="flex items-center gap-3 flex-shrink-0">
+          <a
+            href="https://www.linkedin.com/in/cyber-exorcist0/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="px-5 py-2.5 rounded-lg bg-exo-primary text-slate-950 font-mono text-xs font-bold hover:bg-sky-400 transition-colors"
+          >
+            Connect on LinkedIn &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

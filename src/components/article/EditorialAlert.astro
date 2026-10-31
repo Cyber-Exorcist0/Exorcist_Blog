@@ -1,0 +1,49 @@
+---
+interface Props {
+  type?: 'verified' | 'allegation' | 'analysis' | 'warning';
+  title?: string;
+}
+
+const { type = 'verified', title } = Astro.props;
+
+const config = {
+  verified: {
+    label: title || 'VERIFIED COURT & ON-CHAIN RECORD',
+    borderColor: 'border-emerald-500/50',
+    bgColor: 'bg-emerald-950/20',
+    textColor: 'text-emerald-400',
+    dotColor: 'bg-emerald-500'
+  },
+  allegation: {
+    label: title || 'UNPROVEN ALLEGATION / INDICTMENT CLAIM',
+    borderColor: 'border-amber-500/50',
+    bgColor: 'bg-amber-950/20',
+    textColor: 'text-amber-400',
+    dotColor: 'bg-amber-500'
+  },
+  analysis: {
+    label: title || 'EDITORIAL RESEARCH & TECHNICAL INTERPRETATION',
+    borderColor: 'border-exo-primary/50',
+    bgColor: 'bg-cyan-950/20',
+    textColor: 'text-cyan-400',
+    dotColor: 'bg-exo-primary'
+  },
+  warning: {
+    label: title || 'INVESTIGATIVE CAVEAT & DEPLOYMENT WARNING',
+    borderColor: 'border-rose-500/50',
+    bgColor: 'bg-rose-950/20',
+    textColor: 'text-rose-400',
+    dotColor: 'bg-rose-500'
+  }
+}[type];
+---
+
+<div class={`my-6 p-4 md:p-5 rounded-lg border ${config.borderColor} ${config.bgColor}`}>
+  <div class="flex items-center gap-2 mb-2 font-mono text-xs font-bold uppercase tracking-wider">
+    <span class={`w-2 h-2 rounded-full ${config.dotColor}`}></span>
+    <span class={config.textColor}>{config.label}</span>
+  </div>
+  <div class="text-sm text-slate-300 leading-relaxed space-y-2">
+    <slot />
+  </div>
+</div>

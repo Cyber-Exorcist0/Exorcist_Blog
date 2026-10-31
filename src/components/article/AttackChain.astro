@@ -1,0 +1,55 @@
+---
+interface Stage {
+  number: number | string;
+  phase: string;
+  action: string;
+  technicalVector: string;
+  mitigationOrDetection?: string;
+}
+
+interface Props {
+  title?: string;
+  stages: Stage[];
+}
+
+const { title = "Operational Attack Chain Deconstruction", stages } = Astro.props;
+---
+
+<div class="my-10 p-6 md:p-8 bg-exo-secondary/90 border border-exo-border rounded-lg">
+  <div class="flex items-center justify-between pb-4 mb-6 border-b border-exo-border">
+    <div class="flex items-center gap-2">
+      <div class="w-2.5 h-2.5 bg-exo-accent rounded-sm"></div>
+      <h3 class="text-sm font-mono uppercase tracking-widest text-exo-accent font-bold m-0">{title}</h3>
+    </div>
+    <span class="text-xs font-mono text-exo-muted">TACTICS_&amp;_TECHNIQUES</span>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {stages.map((stg) => (
+      <div class="p-4 rounded-md bg-exo-card border border-exo-border hover:border-exo-primary/50 transition-all flex flex-col justify-between relative group">
+        <!-- Step Number badge -->
+        <div class="flex items-center justify-between mb-3">
+          <span class="w-6 h-6 rounded-full bg-exo-primary/10 border border-exo-primary/40 text-exo-primary font-mono text-xs font-bold flex items-center justify-center">
+            {stg.number}
+          </span>
+          <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 bg-exo-secondary px-2 py-0.5 rounded border border-exo-border">
+            {stg.phase}
+          </span>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold text-white mb-2 leading-snug">{stg.action}</h4>
+          <p class="text-xs text-slate-300 font-mono bg-exo-bg p-2 rounded border border-exo-border/60 mb-2 leading-relaxed">
+            <span class="text-exo-primary">&gt; VECTOR:</span> {stg.technicalVector}
+          </p>
+        </div>
+
+        {stg.mitigationOrDetection && (
+          <div class="mt-2 pt-2 border-t border-exo-border/60 text-[11px] text-slate-400">
+            <span class="text-exo-warning font-semibold">DETECTION:</span> {stg.mitigationOrDetection}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+</div>

@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InvestigationCard from '../../components/InvestigationCard.astro';
+import { getCollection } from 'astro:content';
+import { url } from '../../utils/base';
+
+const allInvestigations = await getCollection('investigations');
+// Filter for technical analysis articles or categories focusing on malware/reverse engineering/exploitation
+const technicalPublications = allInvestigations.filter(
+  (i) => i.data.type === 'technical' || i.data.category === 'Malware Analysis' || i.data.category === 'Exploitation & Vulnerabilities'
+);
+
+const searchItems = allInvestigations.map((item) => ({
+  title: item.data.title,
+  slug: item.id.replace(/\.(md|mdx)$/, ''),
+  description: item.data.description,
+  category: item.data.category,
+  caseId: item.data.case_id,
+  tags: item.data.tags
+}));
+
+const techDomains = [
+  { name: 'Binary Disassembly & Reverse Engineering', focus: 'IDA Pro, Ghidra, x64dbg workflow documentation and PE/ELF analysis.' },
+  { name: 'Windows Internals & Kernel Telemetry', focus: 'EDR evasion, API unhooking, direct syscalls, and NT rootkit mechanics.' },
+  { name: 'Exploit Chain Reconstruction', focus: 'Memory corruptions, use-after-free, logic flaws, and zero-day chains.' },
+  { name: 'Forensic Artifact Extraction', focus: 'Memory dump analysis, MFT records, event log forensics, and disk carve evidence.' },
+  { name: 'Detection Engineering (YARA / Sigma)', focus: 'Rule generation, behavioral telemetry baselining, and SOC threat hunting.' }
+];
+---
+
+<BaseLayout
+  title="Technical Analysis & Binary Research | CYBER EXORCIST"
+  description="Deep technical analysis into malware mechanics, reverse engineering, exploit anatomy, Windows internals, and detection engineering."
+  searchItems={searchItems}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+    <!-- Header with Distinct Purple Technical Accent -->
+    <div class="p-8 md:p-12 rounded-xl bg-gradient-to-r from-purple-950/40 via-exo-secondary to-exo-secondary border border-purple-800/40 mb-12 relative overflow-hidden">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-purple-950/80 border border-purple-500/40 text-xs font-mono text-purple-300 mb-4">
+        <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+        TECHNICAL_ANALYSIS_DIVISION // BINARY_RESEARCH
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight uppercase">
+        Technical Analysis &amp; Reverse Engineering
+      </h1>
+
+      <p class="text-slate-300 text-sm md:text-base mt-3 max-w-3xl leading-relaxed">
+        Dedicated technical research accommodating malware behavioral analysis, reverse-engineered payloads, Windows internals, exploit chains, and defensive detection engineering.
+      </p>
+
+      <div class="mt-6 flex flex-wrap gap-4 text-xs font-mono text-slate-300">
+        <div class="flex items-center gap-2">
+          <span class="text-purple-400 font-bold">&gt;</span> No generic beginner tutorials
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-purple-400 font-bold">&gt;</span> Pure technical disassembly &amp; code analysis
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-purple-400 font-bold">&gt;</span> Verified behavioral telemetry &amp; IOCs
+        </div>
+      </div>
+    </div>
+
+    <!-- Technical Disciplines Scope Grid -->
+    <section class="mb-14">
+      <h2 class="text-sm font-mono uppercase tracking-widest text-slate-400 font-bold mb-4">
+        Technical Research Scope
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        {techDomains.map((domain, idx) => (
+          <div class="p-4 rounded-lg bg-exo-secondary border border-exo-border text-xs font-mono">
+            <span class="text-purple-400 font-bold block mb-1">0{idx + 1}.</span>
+            <h3 class="text-white font-bold mb-2">{domain.name}</h3>
+            <p class="text-slate-400 text-[11px] leading-relaxed">{domain.focus}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Published Technical Research Grid -->
+    <section>
+      <div class="flex items-center justify-between pb-3 mb-6 border-b border-exo-border">
+        <h2 class="text-base font-mono font-bold uppercase text-white m-0">
+          Published Technical Dossiers &amp; Payloads
+        </h2>
+        <span class="font-mono text-xs text-purple-400 font-semibold">
+          {technicalPublications.length} PUBLISHED_PAPERS
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {technicalPublications.map((item) => (
+          <InvestigationCard
+            title={item.data.title}
+            slug={item.id.replace(/\.(md|mdx)$/, '')}
+            description={item.data.description}
+            category={item.data.category}
+            publicationDate={item.data.publication_date}
+            readingTime={item.data.reading_time}
+            coverImage={item.data.cover_image}
+            authors={item.data.authors}
+            caseId={item.data.case_id}
+            type="technical"
+          />
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

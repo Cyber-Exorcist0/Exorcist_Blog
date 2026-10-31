@@ -1,0 +1,53 @@
+---
+interface TimelineEvent {
+  date: string;
+  title: string;
+  description: string;
+  evidenceRef?: string;
+  type?: 'recon' | 'incident' | 'forensic' | 'legal';
+}
+
+interface Props {
+  events: TimelineEvent[];
+  title?: string;
+}
+
+const { events, title = "Chronological Investigation Timeline" } = Astro.props;
+---
+
+<div class="my-10 p-6 md:p-8 bg-exo-secondary/80 border border-exo-border rounded-lg relative overflow-hidden">
+  <!-- Subtle Header Ticker -->
+  <div class="flex items-center justify-between pb-4 mb-6 border-b border-exo-border">
+    <div class="flex items-center gap-2">
+      <div class="w-2.5 h-2.5 rounded-full bg-exo-primary animate-pulse"></div>
+      <h3 class="text-sm font-mono uppercase tracking-widest text-exo-primary font-bold m-0">{title}</h3>
+    </div>
+    <span class="text-xs font-mono text-exo-muted">VERIFIED_CHRONOLOGY</span>
+  </div>
+
+  <div class="relative pl-6 md:pl-8 border-l border-exo-border space-y-8">
+    {events.map((evt, idx) => (
+      <div class="relative group">
+        <!-- Node Marker -->
+        <div class="absolute -left-[31px] md:-left-[39px] top-1.5 w-4 h-4 rounded-full bg-exo-card border-2 border-exo-primary group-hover:scale-125 transition-transform flex items-center justify-center">
+          <div class="w-1.5 h-1.5 rounded-full bg-exo-primary"></div>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-exo-border/60 text-exo-primary">
+              {evt.date}
+            </span>
+            {evt.evidenceRef && (
+              <span class="font-mono text-[11px] px-2 py-0.5 rounded bg-exo-accent/20 text-purple-300 border border-exo-accent/30">
+                EVID: {evt.evidenceRef}
+              </span>
+            )}
+          </div>
+          <h4 class="text-base font-semibold text-slate-100 mt-1 mb-0.5">{evt.title}</h4>
+          <p class="text-sm text-slate-300 leading-relaxed m-0">{evt.description}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>

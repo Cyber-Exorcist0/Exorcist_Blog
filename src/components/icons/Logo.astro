@@ -1,0 +1,60 @@
+---
+interface Props {
+  variant?: 'full' | 'compact' | 'icon';
+  size?: 'sm' | 'md' | 'lg';
+  className?: string;
+}
+
+const { variant = 'full', size = 'md', className = '' } = Astro.props;
+
+const dimensions = {
+  sm: { icon: 'w-6 h-6', text: 'text-base', sub: 'text-[9px]' },
+  md: { icon: 'w-8 h-8', text: 'text-xl', sub: 'text-[10px]' },
+  lg: { icon: 'w-12 h-12', text: 'text-2xl', sub: 'text-xs' },
+}[size];
+---
+
+<div class={`inline-flex items-center gap-3 ${className}`}>
+  <!-- Minimal Forensic / Exorcism Vector Icon -->
+  <div class={`relative flex-shrink-0 ${dimensions.icon}`}>
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-[0_0_8px_rgba(56,189,248,0.3)]">
+      <!-- Outer Hexagonal Reticle Bounds -->
+      <polygon points="32,4 58,18 58,46 32,60 6,46 6,18" stroke="#253044" stroke-width="2.5" fill="#0D121C" />
+      <polygon points="32,8 54,20 54,44 32,56 10,44 10,20" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6" />
+      
+      <!-- Forensic Crosshair Ticks -->
+      <line x1="32" y1="4" x2="32" y2="14" stroke="#38BDF8" stroke-width="2" />
+      <line x1="32" y1="50" x2="32" y2="60" stroke="#38BDF8" stroke-width="2" />
+      <line x1="6" y1="32" x2="16" y2="32" stroke="#38BDF8" stroke-width="2" />
+      <line x1="48" y1="32" x2="58" y2="32" stroke="#38BDF8" stroke-width="2" />
+      
+      <!-- Central Exorcism Chevron / Forensic Pointer Blade -->
+      <path d="M22 24 L32 16 L42 24 L32 46 Z" fill="url(#brandGrad)" stroke="#38BDF8" stroke-width="1.5" />
+      
+      <!-- Terminal prompt cursor extraction element -->
+      <line x1="28" y1="34" x2="36" y2="34" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" />
+      <circle cx="32" cy="24" r="2" fill="#FFFFFF" />
+
+      <defs>
+        <linearGradient id="brandGrad" x1="22" y1="16" x2="42" y2="46" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#38BDF8" stop-opacity="0.9" />
+          <stop offset="1" stop-color="#8B5CF6" stop-opacity="0.8" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  {variant !== 'icon' && (
+    <div class="flex flex-col">
+      <div class="flex items-center gap-1.5 font-mono font-bold tracking-wider text-slate-100 uppercase leading-none">
+        <span class="text-white">CYBER</span>
+        <span class="text-exo-primary">EXORCIST</span>
+      </div>
+      {variant === 'full' && (
+        <span class="font-mono text-exo-muted tracking-widest text-[9px] uppercase mt-1">
+          Technical Publication
+        </span>
+      )}
+    </div>
+  )}
+</div>

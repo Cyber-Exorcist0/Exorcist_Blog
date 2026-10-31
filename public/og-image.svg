@@ -1,0 +1,59 @@
+<svg viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#080B12" />
+  
+  <!-- Subtle Technical Grid Pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#253044" stroke-width="0.75" stroke-opacity="0.5" />
+    </pattern>
+    <linearGradient id="grad1" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38BDF8" stop-opacity="0.15" />
+      <stop offset="0.5" stop-color="#080B12" stop-opacity="0" />
+      <stop offset="1" stop-color="#8B5CF6" stop-opacity="0.15" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="1200" height="630" fill="url(#grid)" />
+  <rect width="1200" height="630" fill="url(#grad1)" />
+  
+  <!-- Outer Technical Frame -->
+  <rect x="40" y="40" width="1120" height="550" rx="8" stroke="#253044" stroke-width="2" />
+  <line x1="40" y1="90" x2="1160" y2="90" stroke="#253044" stroke-width="1.5" />
+  
+  <!-- Top Bar Metadata -->
+  <text x="70" y="72" font-family="Courier, monospace" font-size="14" fill="#38BDF8" letter-spacing="2">CASE_FILES // RECONNAISSANCE &amp; FORENSICS</text>
+  <text x="1000" y="72" font-family="Courier, monospace" font-size="14" fill="#94A3B8" letter-spacing="1">STATUS: OPERATIONAL</text>
+  
+  <!-- Brand Center -->
+  <g transform="translate(100, 210)">
+    <!-- Brand Icon -->
+    <polygon points="40,6 72,24 72,60 40,78 8,60 8,24" stroke="#38BDF8" stroke-width="3" fill="#0D121C" />
+    <path d="M28 34 L40 24 L52 34 L40 62 Z" fill="#38BDF8" />
+    
+    <text x="100" y="42" font-family="Helvetica, Arial, sans-serif" font-weight="900" font-size="54" fill="#FFFFFF" letter-spacing="4">CYBER <tspan fill="#38BDF8">EXORCIST</tspan></text>
+    <text x="102" y="80" font-family="Courier, monospace" font-size="20" fill="#8B5CF6" letter-spacing="2">Exposing the Anatomy of Digital Crime.</text>
+    <text x="102" y="130" font-family="Helvetica, Arial, sans-serif" font-size="22" fill="#94A3B8" max-width="800">
+      Independent Cybercrime Research &amp; Technical Investigation Publication
+    </text>
+  </g>
+  
+  <!-- Bottom Dossier Metrics -->
+  <g transform="translate(100, 480)">
+    <rect width="280" height="60" rx="4" fill="#0D121C" stroke="#253044" stroke-width="1" />
+    <text x="20" y="24" font-family="Courier, monospace" font-size="11" fill="#64748B">INVESTIGATION CATEGORIES</text>
+    <text x="20" y="46" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="15" fill="#E5E7EB">8 Active Research Sectors</text>
+    
+    <g transform="translate(310, 0)">
+      <rect width="280" height="60" rx="4" fill="#0D121C" stroke="#253044" stroke-width="1" />
+      <text x="20" y="24" font-family="Courier, monospace" font-size="11" fill="#64748B">EDITORIAL METHODOLOGY</text>
+      <text x="20" y="46" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="15" fill="#E5E7EB">Dual Narrative &amp; Technical DFIR</text>
+    </g>
+
+    <g transform="translate(620, 0)">
+      <rect width="340" height="60" rx="4" fill="#0D121C" stroke="#253044" stroke-width="1" />
+      <text x="20" y="24" font-family="Courier, monospace" font-size="11" fill="#64748B">FORENSIC VERIFICATION</text>
+      <text x="20" y="46" font-family="Helvetica, Arial, sans-serif" font-weight="700" font-size="15" fill="#38BDF8">Primary Court Filings &amp; Chain Data</text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,37 @@
+<svg viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#080B12" />
+  <defs>
+    <pattern id="contiGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#253044" stroke-width="1" stroke-opacity="0.3" />
+      <circle cx="0" cy="0" r="1.5" fill="#38BDF8" opacity="0.4" />
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#contiGrid)" />
+  <rect x="40" y="40" width="1120" height="550" rx="8" stroke="#253044" stroke-width="1.5" />
+  <line x1="40" y1="100" x2="1160" y2="100" stroke="#253044" stroke-width="1" />
+  <text x="70" y="75" font-family="Courier, monospace" font-size="14" fill="#38BDF8" letter-spacing="2">TECHNICAL ANALYSIS: TA-2022-04 // SECTOR: MALWARE_ANALYSIS</text>
+  <text x="960" y="75" font-family="Courier, monospace" font-size="14" fill="#EF4444" letter-spacing="1">SYNDICATE LEAKS (CONTI-LEAKS)</text>
+  
+  <!-- Disassembly & Windows Internals Diagram -->
+  <g transform="translate(180, 180)">
+    <rect x="20" y="50" width="240" height="150" rx="4" fill="#111827" stroke="#253044" stroke-width="1.5" />
+    <text x="35" y="80" font-family="Courier, monospace" font-size="11" fill="#38BDF8">KERNEL ARTIFACTS</text>
+    <text x="35" y="105" font-family="Courier, monospace" font-size="10" fill="#94A3B8">NtCreateProcessEx Hook</text>
+    <text x="35" y="125" font-family="Courier, monospace" font-size="10" fill="#94A3B8">ChaCha20 + RSA-4096 Keys</text>
+    <text x="35" y="145" font-family="Courier, monospace" font-size="10" fill="#EF4444">RestartManager Session Kill</text>
+    <text x="35" y="165" font-family="Courier, monospace" font-size="10" fill="#10B981">IOC: .CONTI Extension Registry</text>
+
+    <path d="M260 125 L450 125" stroke="#38BDF8" stroke-width="2" stroke-dasharray="3 3" />
+    <polygon points="450,125 440,120 440,130" fill="#38BDF8" />
+
+    <rect x="470" y="50" width="300" height="150" rx="4" fill="#111827" stroke="#38BDF8" stroke-width="1.5" />
+    <text x="490" y="80" font-family="Courier, monospace" font-size="11" fill="#38BDF8">CORPORATE SYNDICATE STRUCTURE</text>
+    <text x="490" y="105" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#E5E7EB">HR, Coders, Sysadmins, Negotiators</text>
+    <text x="490" y="125" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#94A3B8">60,000 Jabber / Matrix Chat Messages</text>
+    <text x="490" y="150" font-family="Courier, monospace" font-size="10" fill="#F59E0B">TrickBot &amp; Emotet Infiltration Pipeline</text>
+    <text x="490" y="170" font-family="Courier, monospace" font-size="10" fill="#38BDF8">C2: Reverse SOCKS Proxy Fleet</text>
+  </g>
+  
+  <text x="70" y="540" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="28" fill="#FFFFFF">Dissecting the Conti Syndicate: Internal Chats and Binary Internals</text>
+  <text x="70" y="568" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#94A3B8">Anatomy of an enterprise cybercrime cartel: reverse engineering the locker code and reviewing 60,000 leaked communications</text>
+</svg>

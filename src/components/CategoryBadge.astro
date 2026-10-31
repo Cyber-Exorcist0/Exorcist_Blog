@@ -1,0 +1,43 @@
+---
+import { url } from '../utils/base';
+
+interface Props {
+  category: string;
+  size?: 'sm' | 'md';
+  linked?: boolean;
+}
+
+const { category, size = 'sm', linked = false } = Astro.props;
+
+const colorMap: Record<string, string> = {
+  'Cybercrime Investigations': 'text-sky-400 bg-sky-950/40 border-sky-800/60',
+  'Malware Analysis': 'text-purple-400 bg-purple-950/40 border-purple-800/60',
+  'Darknet & Underground Markets': 'text-amber-400 bg-amber-950/40 border-amber-800/60',
+  'Darknet Operations': 'text-amber-400 bg-amber-950/40 border-amber-800/60',
+  'Cryptocurrency Crimes': 'text-emerald-400 bg-emerald-950/40 border-emerald-800/60',
+  'Exploitation & Vulnerabilities': 'text-rose-400 bg-rose-950/40 border-rose-800/60',
+  'Digital Forensics & Incident Response': 'text-cyan-400 bg-cyan-950/40 border-cyan-800/60',
+  'Advanced Persistent Threats': 'text-indigo-400 bg-indigo-950/40 border-indigo-800/60',
+  'Social Engineering & Insider Threats': 'text-orange-400 bg-orange-950/40 border-orange-800/60'
+};
+
+const badgeClasses = colorMap[category] || 'text-slate-300 bg-slate-900 border-slate-700';
+const sizeClasses = size === 'sm' ? 'text-[11px] px-2.5 py-0.5' : 'text-xs px-3 py-1';
+---
+
+{linked ? (
+  <a
+    href={url(`/investigations?category=${encodeURIComponent(category)}`)}
+    class={`inline-flex items-center gap-1.5 font-mono uppercase tracking-wider font-semibold rounded border transition-colors hover:brightness-125 ${badgeClasses} ${sizeClasses}`}
+  >
+    <span class="w-1.5 h-1.5 rounded-full bg-current opacity-80"></span>
+    {category}
+  </a>
+) : (
+  <span
+    class={`inline-flex items-center gap-1.5 font-mono uppercase tracking-wider font-semibold rounded border ${badgeClasses} ${sizeClasses}`}
+  >
+    <span class="w-1.5 h-1.5 rounded-full bg-current opacity-80"></span>
+    {category}
+  </span>
+)}

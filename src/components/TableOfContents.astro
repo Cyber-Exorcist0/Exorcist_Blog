@@ -1,0 +1,131 @@
+---
+interface HeadingItem {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: HeadingItem[];
+}
+
+const { headings } = Astro.props;
+// Only include h2 and h3
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{tocHeadings.length > 0 && (
+  <nav class="toc-container" aria-label="Table of Contents">
+    <!-- Mobile Collapsible Header -->
+    <div class="lg:hidden mb-6 p-4 rounded-lg bg-exo-secondary border border-exo-border">
+      <button
+        type="button"
+        id="toc-mobile-toggle"
+        class="w-full flex items-center justify-between font-mono text-xs text-slate-200 uppercase font-bold"
+        aria-expanded="false"
+      >
+        <span class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-exo-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="15" y2="12" />
+            <line x1="3" y1="18" x2="18" y2="18" />
+          </svg>
+          CASE DOSSIER OUTLINE (TOC)
+        </span>
+        <span id="toc-toggle-indicator" class="text-exo-primary text-sm font-bold">+</span>
+      </button>
+
+      <ul id="toc-mobile-list" class="hidden mt-4 space-y-2 text-xs font-mono border-t border-exo-border/60 pt-3 list-none p-0 m-0">
+        {tocHeadings.map((h) => (
+          <li class={h.depth === 3 ? 'pl-4' : ''}>
+            <a
+              href={`#${h.slug}`}
+              class="toc-mobile-link text-slate-400 hover:text-exo-primary transition-colors block py-1"
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Desktop Sticky Sidebar -->
+    <div class="hidden lg:block sticky top-24 p-5 rounded-lg bg-exo-secondary/70 border border-exo-border backdrop-blur-sm max-h-[calc(100vh-8rem)] overflow-y-auto">
+      <div class="flex items-center gap-2 pb-3 mb-3 border-b border-exo-border">
+        <div class="w-2 h-2 rounded-full bg-exo-primary"></div>
+        <h3 class="font-mono text-xs uppercase tracking-widest text-white font-bold m-0">
+          Dossier Index
+        </h3>
+      </div>
+
+      <ul class="space-y-1.5 text-xs font-mono list-none p-0 m-0">
+        {tocHeadings.map((h) => (
+          <li class={h.depth === 3 ? 'pl-3 border-l border-exo-border/60 ml-1' : ''}>
+            <a
+              href={`#${h.slug}`}
+              data-slug={h.slug}
+              class="toc-desktop-link block py-1 text-slate-400 hover:text-exo-primary transition-colors leading-snug"
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+)}
+
+<script>
+  // Mobile accordion toggle
+  const mobileToggle = document.getElementById('toc-mobile-toggle');
+  const mobileList = document.getElementById('toc-mobile-list');
+  const toggleIndicator = document.getElementById('toc-toggle-indicator');
+
+  mobileToggle?.addEventListener('click', () => {
+    const isHidden = mobileList?.classList.contains('hidden');
+    mobileList?.classList.toggle('hidden');
+    if (toggleIndicator) {
+      toggleIndicator.textContent = isHidden ? '−' : '+';
+    }
+  });
+
+  // Close mobile TOC when link clicked
+  document.querySelectorAll('.toc-mobile-link').forEach((link) => {
+    link.addEventListener('click', () => {
+      mobileList?.classList.add('hidden');
+      if (toggleIndicator) toggleIndicator.textContent = '+';
+    });
+  });
+
+  // Desktop active link observer
+  const links = document.querySelectorAll<HTMLAnchorElement>('.toc-desktop-link');
+  if (links.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            links.forEach((link) => {
+              if (link.getAttribute('data-slug') === id) {
+                link.classList.add('text-exo-primary', 'font-semibold');
+                link.classList.remove('text-slate-400');
+              } else {
+                link.classList.remove('text-exo-primary', 'font-semibold');
+                link.classList.add('text-slate-400');
+              }
+            });
+          }
+        });
+      },
+      { rootMargin: '-80px 0px -60% 0px' }
+    );
+
+    links.forEach((link) => {
+      const slug = link.getAttribute('data-slug');
+      if (slug) {
+        const el = document.getElementById(slug);
+        if (el) observer.observe(el);
+      }
+    });
+  }
+</script>

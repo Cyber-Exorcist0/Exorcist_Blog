@@ -1,0 +1,18 @@
+{
+  "id": "cyber-exorcist",
+  "name": "Cyber Exorcist",
+  "role": "Computer Engineer & Independent Cybersecurity Researcher",
+  "bio": "Computer Engineer exploring cybersecurity, digital forensics, and cybercrime research. Cyber Exorcist is my personal informative blog where I independently research, analyze, and document the mechanics behind cyberattacks, software vulnerabilities, and digital investigation cases.",
+  "avatar": "/images/authors/cyber-exorcist.jpg",
+  "areas_of_expertise": [
+    "Computer Engineering",
+    "Cybercrime Research",
+    "Incident Analysis",
+    "Digital Forensics",
+    "Malware Studies"
+  ],
+  "pgp_key_fingerprint": "8F3A 4C19 E802 77B4 D931 2C05 9811 A7F0 4B6E 130D",
+  "github": "https://github.com/Cyber-Exorcist0",
+  "linkedin": "https://www.linkedin.com/in/cyber-exorcist0/",
+  "twitter": "https://x.com"
+}

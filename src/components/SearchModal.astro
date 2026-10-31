@@ -1,0 +1,169 @@
+---
+import { url } from '../utils/base';
+
+interface SearchItem {
+  title: string;
+  slug: string;
+  description: string;
+  category: string;
+  caseId?: string;
+  tags?: string[];
+}
+
+interface Props {
+  items: SearchItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<!-- Search Trigger Button (Can be placed in Header) -->
+<button
+  type="button"
+  id="search-trigger-btn"
+  class="flex items-center gap-2.5 px-3 py-1.5 rounded-md bg-exo-secondary border border-exo-border text-slate-300 hover:border-exo-primary/60 hover:text-white transition-all text-xs font-mono group"
+  aria-label="Search investigations"
+>
+  <svg class="w-3.5 h-3.5 text-exo-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <circle cx="11" cy="11" r="8" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+  </svg>
+  <span class="hidden sm:inline">Search Case Files...</span>
+  <span class="sm:hidden">Search</span>
+  <kbd class="hidden sm:inline-block px-1.5 py-0.5 rounded bg-exo-bg border border-slate-700 text-[10px] text-slate-400 group-hover:text-exo-primary">
+    Ctrl+K
+  </kbd>
+</button>
+
+<!-- Search Modal Overlay -->
+<div
+  id="search-modal"
+  class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-start justify-center pt-16 md:pt-24 px-4 overflow-y-auto"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="search-modal-title"
+>
+  <div class="w-full max-w-2xl rounded-xl bg-exo-card border border-exo-border shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+    <!-- Search Bar -->
+    <div class="p-4 bg-exo-secondary border-b border-exo-border flex items-center gap-3">
+      <svg class="w-5 h-5 text-exo-primary flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <input
+        type="search"
+        id="search-input"
+        placeholder="Search cases by target, exploit, actor, or CVE..."
+        class="w-full bg-transparent text-white placeholder-slate-400 text-sm md:text-base font-mono focus:outline-none"
+        autocomplete="off"
+      />
+      <button
+        type="button"
+        id="search-close-btn"
+        class="px-2 py-1 rounded text-xs font-mono text-slate-400 hover:text-white border border-transparent hover:border-exo-border"
+      >
+        ESC
+      </button>
+    </div>
+
+    <!-- Results Box -->
+    <div id="search-results" class="max-h-96 overflow-y-auto p-2 space-y-1">
+      <div id="search-initial-msg" class="p-6 text-center text-sm font-mono text-slate-400">
+        Type a case name, keyword, or actor to search the forensic database.
+      </div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="px-4 py-2.5 bg-exo-bg/80 border-t border-exo-border flex items-center justify-between text-[11px] font-mono text-slate-400">
+      <div class="flex items-center gap-3">
+        <span><kbd class="px-1 rounded bg-exo-secondary border border-slate-700">↑↓</kbd> Navigate</span>
+        <span><kbd class="px-1 rounded bg-exo-secondary border border-slate-700">Enter</kbd> Select</span>
+        <span><kbd class="px-1 rounded bg-exo-secondary border border-slate-700">ESC</kbd> Close</span>
+      </div>
+      <span class="text-exo-primary">CYBER_EXORCIST // SEARCH_ENGINE</span>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ items, baseUrl: url('') }}>
+  const triggerBtn = document.getElementById('search-trigger-btn');
+  const modal = document.getElementById('search-modal');
+  const closeBtn = document.getElementById('search-close-btn');
+  const input = document.getElementById('search-input');
+  const resultsContainer = document.getElementById('search-results');
+
+  function openSearch() {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    input.focus();
+    input.select();
+  }
+
+  function closeSearch() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  triggerBtn?.addEventListener('click', openSearch);
+  closeBtn?.addEventListener('click', closeSearch);
+
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) closeSearch();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      modal.classList.contains('hidden') ? openSearch() : closeSearch();
+    }
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+      closeSearch();
+    }
+  });
+
+  input?.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    if (!query) {
+      resultsContainer.innerHTML = `
+        <div class="p-6 text-center text-sm font-mono text-slate-400">
+          Type a case name, keyword, or actor to search the forensic database.
+        </div>`;
+      return;
+    }
+
+    const filtered = items.filter((item) => {
+      const matchTitle = item.title.toLowerCase().includes(query);
+      const matchDesc = item.description.toLowerCase().includes(query);
+      const matchCat = item.category.toLowerCase().includes(query);
+      const matchCase = item.caseId ? item.caseId.toLowerCase().includes(query) : false;
+      const matchTags = item.tags ? item.tags.some(t => t.toLowerCase().includes(query)) : false;
+      return matchTitle || matchDesc || matchCat || matchCase || matchTags;
+    });
+
+    if (filtered.length === 0) {
+      resultsContainer.innerHTML = `
+        <div class="p-6 text-center font-mono text-xs text-slate-400">
+          No matching case files found for query: <span class="text-exo-warning">"${query}"</span>
+        </div>`;
+      return;
+    }
+
+    resultsContainer.innerHTML = filtered.map((item) => {
+      const itemUrl = `${baseUrl.replace(/\/$/, '')}/investigations/${item.slug}`;
+      return `
+        <a href="${itemUrl}" class="block p-3 rounded-md hover:bg-exo-secondary border border-transparent hover:border-exo-border transition-colors group">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <span class="text-xs font-mono text-exo-primary font-semibold">${item.category}</span>
+            ${item.caseId ? `<span class="text-[10px] font-mono text-slate-400 bg-exo-bg px-1.5 py-0.5 rounded">${item.caseId}</span>` : ''}
+          </div>
+          <div class="text-sm font-semibold text-white group-hover:text-exo-primary transition-colors">
+            ${item.title}
+          </div>
+          <p class="text-xs text-slate-400 line-clamp-1 mt-0.5">
+            ${item.description}
+          </p>
+        </a>
+      `;
+    }).join('');
+  });
+</script>

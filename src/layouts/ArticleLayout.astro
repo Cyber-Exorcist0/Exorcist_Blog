@@ -1,0 +1,287 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+import CategoryBadge from '../components/CategoryBadge.astro';
+import { url, formatDate } from '../utils/base';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  description: string;
+  category: string;
+  publicationDate: Date | string;
+  updatedDate?: Date | string;
+  readingTime: string;
+  coverImage: string;
+  authors: string[];
+  caseId?: string;
+  threatActor?: string;
+  target?: string;
+  impact?: string;
+  type?: 'investigation' | 'technical';
+  headings: Array<{ depth: number; slug: string; text: string }>;
+  searchItems?: any[];
+  allAuthorsData?: any[];
+}
+
+const {
+  title,
+  subtitle,
+  description,
+  category,
+  publicationDate,
+  updatedDate,
+  readingTime,
+  coverImage,
+  authors,
+  caseId,
+  threatActor,
+  target,
+  impact,
+  type = 'investigation',
+  headings,
+  searchItems = [],
+  allAuthorsData = []
+} = Astro.props;
+
+const siteUrl = Astro.site ? Astro.site.toString().replace(/\/$/, '') : 'https://cyberexorcist.publication';
+const currentUrl = new URL(Astro.url.pathname, siteUrl).toString();
+
+// Article Schema.org structured data
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": title,
+  "description": description,
+  "image": new URL(url(coverImage), siteUrl).toString(),
+  "datePublished": new Date(publicationDate).toISOString(),
+  "dateModified": updatedDate ? new Date(updatedDate).toISOString() : new Date(publicationDate).toISOString(),
+  "author": authors.map(a => ({
+    "@type": "Person",
+    "name": a
+  })),
+  "publisher": {
+    "@type": "Organization",
+    "name": "Cyber Exorcist",
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${siteUrl}${url('/favicon.svg')}`
+    }
+  },
+  "mainEntityOfPage": currentUrl
+};
+---
+
+<BaseLayout
+  title={`${title} | CYBER EXORCIST`}
+  description={description}
+  image={coverImage}
+  article={true}
+  publicationDate={publicationDate}
+  authorName={authors.join(', ')}
+  searchItems={searchItems}
+>
+  <ReadingProgress />
+
+  <!-- Article JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+
+  <article class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 font-mono text-xs text-exo-muted mb-6" aria-label="Breadcrumb">
+      <a href={url('/')} class="hover:text-exo-primary">HOME</a>
+      <span>/</span>
+      <a href={url('/investigations')} class="hover:text-exo-primary">INVESTIGATIONS</a>
+      <span>/</span>
+      <span class="text-slate-300 truncate max-w-xs">{caseId || 'CASE FILE'}</span>
+    </nav>
+
+    <!-- Header Dossier Block -->
+    <header class="p-6 md:p-10 rounded-xl bg-exo-secondary border border-exo-border mb-10 relative overflow-hidden">
+      <!-- Watermark / Tag -->
+      <div class="flex flex-wrap items-center justify-between gap-3 pb-6 mb-6 border-b border-exo-border">
+        <div class="flex flex-wrap items-center gap-2.5">
+          <CategoryBadge category={category} size="md" linked={true} />
+          {caseId && (
+            <span class="font-mono text-xs font-bold px-2.5 py-1 rounded bg-exo-card border border-exo-border text-slate-300">
+              {caseId}
+            </span>
+          )}
+        </div>
+
+        <div class="flex items-center gap-2 font-mono text-xs text-exo-muted">
+          <span>CLASSIFICATION: <strong class="text-emerald-400 font-semibold">DECLASSIFIED_PUBLIC_RESEARCH</strong></span>
+        </div>
+      </div>
+
+      <!-- Title & Subtitle -->
+      <h1 class="text-2xl sm:text-3xl md:text-5xl font-black text-white tracking-tight leading-tight mb-4">
+        {title}
+      </h1>
+
+      {subtitle && (
+        <p class="text-base sm:text-lg md:text-xl text-slate-300 leading-relaxed max-w-4xl font-normal mb-8">
+          {subtitle}
+        </p>
+      )}
+
+      <!-- Metadata Dossier Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 rounded-lg bg-exo-card border border-exo-border text-xs font-mono mb-8">
+        <div>
+          <span class="text-slate-400 block mb-1">PUBLICATION DATE:</span>
+          <time datetime={new Date(publicationDate).toISOString()} class="text-slate-200 font-semibold">
+            {formatDate(publicationDate)}
+          </time>
+        </div>
+        <div>
+          <span class="text-slate-400 block mb-1">AUTHOR:</span>
+          <span class="text-exo-primary font-semibold">{authors.join(' & ')}</span>
+        </div>
+        <div>
+          <span class="text-slate-400 block mb-1">READING DURATION:</span>
+          <span class="text-slate-200">{readingTime}</span>
+        </div>
+        <div>
+          <span class="text-slate-400 block mb-1">DOSSIER STATUS:</span>
+          <span class="text-emerald-400 font-semibold">PEER_REVIEWED</span>
+        </div>
+      </div>
+
+      <!-- Case Parameters (if available) -->
+      {(threatActor || target || impact) && (
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-4 border-t border-exo-border/80 text-xs font-mono">
+          {threatActor && (
+            <div class="p-2.5 rounded bg-exo-bg border border-exo-border">
+              <span class="text-slate-400 block mb-0.5">SUBJECT / THREAT ACTOR:</span>
+              <span class="text-slate-200 font-bold">{threatActor}</span>
+            </div>
+          )}
+          {target && (
+            <div class="p-2.5 rounded bg-exo-bg border border-exo-border">
+              <span class="text-slate-400 block mb-0.5">TARGET / VICTIM ENTITY:</span>
+              <span class="text-slate-200 font-bold">{target}</span>
+            </div>
+          )}
+          {impact && (
+            <div class="p-2.5 rounded bg-exo-bg border border-exo-border">
+              <span class="text-slate-400 block mb-0.5">ESTIMATED VALUATION / IMPACT:</span>
+              <span class="text-exo-warning font-bold">{impact}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      <!-- Cover Media Visual -->
+      <div class="mt-8 rounded-lg overflow-hidden border border-exo-border bg-exo-card">
+        <img
+          src={url(coverImage)}
+          alt={title}
+          class="w-full h-auto max-h-[500px] object-cover"
+        />
+      </div>
+    </header>
+
+    <!-- Two-column Body: Article + Sticky TOC -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+      <!-- Main Content Column -->
+      <div class="lg:col-span-8 min-w-0">
+        <!-- Interactive Share & Copy Bar -->
+        <div class="flex items-center justify-between pb-4 mb-8 border-b border-exo-border text-xs font-mono">
+          <div class="flex items-center gap-2 text-slate-400">
+            <span>SHARE CASE:</span>
+            <button
+              type="button"
+              id="copy-article-link-btn"
+              class="px-2.5 py-1 rounded bg-exo-secondary hover:bg-exo-card border border-exo-border text-slate-300 hover:text-exo-primary transition-colors flex items-center gap-1.5"
+            >
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+              </svg>
+              <span id="copy-text">Copy Link</span>
+            </button>
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(currentUrl)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="px-2.5 py-1 rounded bg-exo-secondary hover:bg-exo-card border border-exo-border text-slate-300 hover:text-white transition-colors"
+            >
+              Post
+            </a>
+          </div>
+
+          <a
+            href={url('/investigations')}
+            class="text-exo-primary hover:underline flex items-center gap-1"
+          >
+            <span>&larr; Back to Case Archive</span>
+          </a>
+        </div>
+
+        <!-- Article MDX / HTML Slot -->
+        <div class="prose prose-invert prose-slate max-w-none text-slate-200 prose-headings:font-bold prose-headings:text-white prose-a:text-exo-primary hover:prose-a:underline prose-code:text-exo-primary prose-code:font-mono prose-pre:border prose-pre:border-exo-border prose-pre:bg-exo-secondary">
+          <slot />
+        </div>
+
+        <!-- Author Attribution Footer -->
+        <div class="mt-16 pt-8 border-t border-exo-border">
+          <h3 class="font-mono text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">
+            About the Author
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {allAuthorsData.filter(a => authors.includes(a.name) || authors.includes(a.id)).map((auth) => (
+              <div class="p-5 rounded-lg bg-exo-secondary border border-exo-border flex items-start gap-4">
+                <img
+                  src={url(auth.avatar)}
+                  alt={auth.name}
+                  class="w-12 h-12 rounded-lg border border-exo-border flex-shrink-0"
+                />
+                <div class="space-y-1">
+                  <h4 class="text-sm font-bold text-white m-0">
+                    <a href={url(`/authors/${auth.id}`)} class="hover:text-exo-primary transition-colors">
+                      {auth.name}
+                    </a>
+                  </h4>
+                  <p class="text-[11px] font-mono text-exo-primary">{auth.role}</p>
+                  <p class="text-xs text-slate-300 line-clamp-2 leading-relaxed">{auth.bio}</p>
+                  <a
+                    href={url(`/authors/${auth.id}`)}
+                    class="inline-block text-[11px] font-mono text-slate-400 hover:text-white pt-1"
+                  >
+                    View authored case files &rarr;
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <!-- Sticky Sidebar Column (TOC + Quick Metadata) -->
+      <aside class="lg:col-span-4 space-y-6">
+        <TableOfContents headings={headings} />
+      </aside>
+    </div>
+  </article>
+
+  <script>
+    const copyBtn = document.getElementById('copy-article-link-btn');
+    const copyText = document.getElementById('copy-text');
+
+    copyBtn?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        if (copyText) {
+          copyText.textContent = 'Copied!';
+          setTimeout(() => {
+            copyText.textContent = 'Copy Link';
+          }, 2000);
+        }
+      } catch (err) {
+        console.error('Failed to copy URL', err);
+      }
+    });
+  </script>
+</BaseLayout>

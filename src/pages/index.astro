@@ -1,0 +1,358 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InvestigationCard from '../components/InvestigationCard.astro';
+import EditorialPhilosophy from '../components/EditorialPhilosophy.astro';
+import NewsletterBox from '../components/NewsletterBox.astro';
+import { getCollection } from 'astro:content';
+import { url } from '../utils/base';
+
+// Fetch investigations and authors
+const allInvestigations = await getCollection('investigations');
+const publishedInvestigations = allInvestigations
+  .filter((i) => i.data.status === 'published')
+  .sort((a, b) => new Date(b.data.publication_date).getTime() - new Date(a.data.publication_date).getTime());
+
+const featuredCase = publishedInvestigations.find((i) => i.data.featured) || publishedInvestigations[0];
+const recentCases = publishedInvestigations.filter((i) => i.id !== featuredCase.id);
+
+const allAuthors = await getCollection('authors');
+
+const searchItems = publishedInvestigations.map((item) => ({
+  title: item.data.title,
+  slug: item.id.replace(/\.(md|mdx)$/, ''),
+  description: item.data.description,
+  category: item.data.category,
+  caseId: item.data.case_id,
+  tags: item.data.tags
+}));
+
+const categories = [
+  { name: 'Cybercrime Investigations', count: '12 Cases', icon: 'shield' },
+  { name: 'Malware Analysis', count: '8 Payloads', icon: 'binary' },
+  { name: 'Darknet & Underground Markets', count: '9 Operations', icon: 'network' },
+  { name: 'Cryptocurrency Crimes', count: '14 Traces', icon: 'coins' },
+  { name: 'Exploitation & Vulnerabilities', count: '11 CVEs', icon: 'cpu' },
+  { name: 'Digital Forensics & Incident Response', count: '7 Artifacts', icon: 'database' },
+  { name: 'Advanced Persistent Threats', count: '6 Groups', icon: 'crosshair' },
+  { name: 'Social Engineering & Insider Threats', count: '5 Cases', icon: 'users' }
+];
+---
+
+<BaseLayout searchItems={searchItems}>
+  <!-- HERO SECTION -->
+  <section class="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-28 border-b border-exo-border bg-gradient-to-b from-exo-bg via-exo-secondary/50 to-exo-bg">
+    <!-- Subtle Forensic Evidence Network Visual Background -->
+    <div class="absolute inset-0 opacity-15 pointer-events-none evidence-pattern"></div>
+    <div class="absolute -top-40 -left-40 w-96 h-96 bg-exo-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute top-1/2 -right-40 w-96 h-96 bg-exo-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Hero Text & CTAs -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-exo-secondary border border-exo-border text-xs font-mono text-exo-primary">
+            <span class="w-2 h-2 rounded-full bg-exo-primary animate-pulse"></span>
+            PERSONAL CYBERSECURITY RESEARCH BLOG // INDEPENDENT INVESTIGATION NOTES
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-[1.1] uppercase">
+            CYBER <span class="text-exo-primary">EXORCIST</span>
+          </h1>
+
+          <p class="text-xl sm:text-2xl font-mono text-exo-primary/90 font-medium tracking-tight">
+            Exposing the Anatomy of Digital Crime.
+          </p>
+
+          <p class="text-base sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
+            Behind every major cybercrime incident lies a chain of human decisions, engineering oversights, and forensic telemetry.
+            Cyber Exorcist is a personal technical publication authored by a computer engineer exploring the cybersecurity landscape—dissecting notable cyberattacks, darknet operations, malware mechanics, and digital evidence from an engineering foundation.
+          </p>
+
+          <div class="pt-4 flex flex-wrap items-center gap-4">
+            <a
+              href={url('/investigations')}
+              class="px-6 py-3.5 rounded-lg bg-exo-primary hover:bg-sky-400 text-slate-950 font-mono text-xs font-bold transition-all flex items-center gap-2 shadow-lg shadow-cyan-950/40"
+            >
+              <span>Explore Case Files</span>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </a>
+
+            <a
+              href={url('/about')}
+              class="px-6 py-3.5 rounded-lg bg-exo-secondary hover:bg-exo-card border border-exo-border text-slate-200 hover:text-white font-mono text-xs font-medium transition-all"
+            >
+              About the Author &amp; Blog
+            </a>
+          </div>
+
+          <!-- Editorial Credo Ticker -->
+          <div class="pt-4 flex items-center gap-6 text-xs font-mono text-slate-400 border-t border-exo-border/80">
+            <div>
+              <span class="text-white font-bold block">AUTHOR:</span>
+              <span>Computer Engineer</span>
+            </div>
+            <div>
+              <span class="text-white font-bold block">RESEARCH FOCUS:</span>
+              <span>Exploits, Malware &amp; DFIR</span>
+            </div>
+            <div>
+              <span class="text-white font-bold block">PUBLICATION:</span>
+              <span>Personal Informative Blog</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Abstract Technical Forensic Evidence Visual -->
+        <div class="lg:col-span-5">
+          <div class="p-6 rounded-xl bg-exo-secondary/90 border border-exo-border shadow-2xl relative overflow-hidden group">
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-exo-border font-mono text-xs text-slate-400">
+              <span class="text-exo-primary font-bold">TELEMETRY_FORENSIC_MONITOR</span>
+              <span class="text-emerald-400">LIVE // SECURE</span>
+            </div>
+
+            <!-- Terminal-inspired forensic telemetry canvas -->
+            <div class="space-y-3 font-mono text-xs">
+              <div class="p-3 rounded bg-exo-bg border border-exo-border/80 flex items-center justify-between">
+                <span class="text-slate-400">TARGET INCIDENT</span>
+                <span class="text-white font-bold">Silk Road Hot Wallet Drain</span>
+              </div>
+              <div class="p-3 rounded bg-exo-bg border border-exo-border/80 flex items-center justify-between">
+                <span class="text-slate-400">EXPLOIT VECTOR</span>
+                <span class="text-exo-primary">Race Condition (Concurrency)</span>
+              </div>
+              <div class="p-3 rounded bg-exo-bg border border-exo-border/80 flex items-center justify-between">
+                <span class="text-slate-400">TOTAL ASSET SEIZURE</span>
+                <span class="text-exo-warning font-bold">50,491.1343 BTC ($3.36B)</span>
+              </div>
+              <div class="p-3 rounded bg-exo-bg border border-exo-border/80 flex items-center justify-between">
+                <span class="text-slate-400">FORENSIC ARTIFACT</span>
+                <span class="text-slate-300">0.0001 BTC Peeling Cross-Trace</span>
+              </div>
+
+              <!-- Mini graph line visualization -->
+              <div class="mt-4 pt-3 border-t border-exo-border/60">
+                <div class="text-[10px] text-slate-400 uppercase mb-1">Investigation Depth Metric</div>
+                <div class="h-2 w-full bg-exo-bg rounded-full overflow-hidden flex">
+                  <div class="bg-exo-primary h-full w-[45%]" title="Human Story & Chronology"></div>
+                  <div class="bg-exo-accent h-full w-[35%]" title="Binary & Exploit Mechanics"></div>
+                  <div class="bg-emerald-500 h-full w-[20%]" title="Legal Recovery & Lessons"></div>
+                </div>
+                <div class="flex justify-between text-[10px] text-slate-400 mt-1">
+                  <span>Story (45%)</span>
+                  <span>Mechanics (35%)</span>
+                  <span>Lessons (20%)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED INVESTIGATION -->
+  {featuredCase && (
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="flex items-center justify-between mb-8 pb-3 border-b border-exo-border">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-exo-primary"></span>
+          <h2 class="text-sm font-mono uppercase tracking-widest text-exo-primary font-bold m-0">
+            Featured Investigation Dossier
+          </h2>
+        </div>
+        <span class="text-xs font-mono text-slate-400">LEAD_STORY</span>
+      </div>
+
+      <InvestigationCard
+        title={featuredCase.data.title}
+        slug={featuredCase.id.replace(/\.(md|mdx)$/, '')}
+        description={featuredCase.data.description}
+        category={featuredCase.data.category}
+        publicationDate={featuredCase.data.publication_date}
+        readingTime={featuredCase.data.reading_time}
+        coverImage={featuredCase.data.cover_image}
+        authors={featuredCase.data.authors}
+        caseId={featuredCase.data.case_id}
+        featured={true}
+        type={featuredCase.data.type}
+      />
+    </section>
+  )}
+
+  <!-- LATEST CASE FILES GRID -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex items-center justify-between mb-8 pb-3 border-b border-exo-border">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-exo-accent"></span>
+        <h2 class="text-sm font-mono uppercase tracking-widest text-slate-200 font-bold m-0">
+          Latest Published Case Files
+        </h2>
+      </div>
+
+      <a
+        href={url('/investigations')}
+        class="text-xs font-mono text-exo-primary hover:underline flex items-center gap-1"
+      >
+        <span>View Complete Archive ({publishedInvestigations.length})</span>
+        <span>&rarr;</span>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {publishedInvestigations.map((item) => (
+        <InvestigationCard
+          title={item.data.title}
+          slug={item.id.replace(/\.(md|mdx)$/, '')}
+          description={item.data.description}
+          category={item.data.category}
+          publicationDate={item.data.publication_date}
+          readingTime={item.data.reading_time}
+          coverImage={item.data.cover_image}
+          authors={item.data.authors}
+          caseId={item.data.case_id}
+          type={item.data.type}
+        />
+      ))}
+    </div>
+  </section>
+
+  <!-- INVESTIGATION CATEGORIES (8 EXTENSIBLE SECTORS) -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-exo-border">
+    <div class="mb-8">
+      <span class="text-xs font-mono text-exo-primary uppercase tracking-widest font-bold block mb-1">
+        RESEARCH DOMAINS
+      </span>
+      <h2 class="text-2xl md:text-3xl font-bold text-white">
+        Investigation Categories
+      </h2>
+      <p class="text-sm text-slate-400 mt-1">
+        Explore specialized archives spanning underground economy operations, malware behavior, and digital forensic intelligence.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {categories.map((cat) => (
+        <a
+          href={url(`/investigations?category=${encodeURIComponent(cat.name)}`)}
+          class="p-5 rounded-lg bg-exo-secondary border border-exo-border hover:border-exo-primary/60 transition-all group flex flex-col justify-between"
+        >
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="w-2 h-2 rounded-full bg-exo-primary/40 group-hover:bg-exo-primary transition-colors"></span>
+              <span class="font-mono text-[10px] text-slate-400 group-hover:text-slate-300">
+                {cat.count}
+              </span>
+            </div>
+            <h3 class="text-sm font-bold text-white group-hover:text-exo-primary transition-colors leading-snug">
+              {cat.name}
+            </h3>
+          </div>
+          <span class="mt-4 text-[11px] font-mono text-slate-400 group-hover:text-white flex items-center gap-1">
+            Access Sector &rarr;
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- EDITORIAL PHILOSOPHY -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <EditorialPhilosophy />
+  </div>
+
+  <!-- ABOUT THE INVESTIGATOR SECTION -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-exo-border">
+    <div class="mb-8">
+      <span class="text-xs font-mono text-exo-primary uppercase tracking-widest font-bold block mb-1">
+        THE AUTHOR &amp; OPERATOR
+      </span>
+      <h2 class="text-2xl md:text-3xl font-bold text-white">
+        About the Author
+      </h2>
+      <p class="text-sm text-slate-400 mt-1">
+        Cyber Exorcist is a personal informative publication operated and researched entirely on my own as a Computer Engineer studying and exploring cybersecurity.
+      </p>
+    </div>
+
+    {(() => {
+      const author = allAuthors.find(a => a.data.id === 'cyber-exorcist') || allAuthors[0];
+      return (
+        <div class="p-6 md:p-8 rounded-xl bg-exo-secondary border border-exo-border flex flex-col md:flex-row items-start gap-8">
+          <img
+            src={url(author.data.avatar)}
+            alt={author.data.name}
+            class="w-24 h-24 md:w-32 md:h-32 rounded-xl border border-exo-border flex-shrink-0 bg-exo-card object-cover"
+          />
+
+          <div class="space-y-4 flex-1">
+            <div>
+              <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-exo-card border border-exo-border text-[11px] font-mono text-exo-primary mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-exo-primary"></span>
+                COMPUTER ENGINEER // AUTHOR
+              </div>
+              <h3 class="text-2xl font-bold text-white">
+                <a href={url(`/authors/${author.data.id}`)} class="hover:text-exo-primary transition-colors">
+                  {author.data.name}
+                </a>
+              </h3>
+              <p class="text-xs font-mono text-exo-primary mt-1">{author.data.role}</p>
+            </div>
+
+            <p class="text-sm text-slate-300 leading-relaxed max-w-3xl">
+              {author.data.bio}
+            </p>
+
+            <div class="flex flex-wrap gap-2 pt-1">
+              {author.data.areas_of_expertise.map((area) => (
+                <span class="text-xs font-mono px-3 py-1 rounded bg-exo-card border border-exo-border text-slate-300">
+                  {area}
+                </span>
+              ))}
+            </div>
+
+            <div class="pt-3 flex flex-wrap items-center gap-3 font-mono text-xs border-t border-exo-border/60">
+              <a
+                href={url(`/authors/${author.data.id}`)}
+                class="px-4 py-2 rounded-md bg-exo-card hover:bg-exo-cardHover border border-exo-border hover:border-exo-primary text-slate-200 hover:text-white transition-colors flex items-center gap-1.5"
+              >
+                <span>View Authored Dossiers</span>
+                <span>&rarr;</span>
+              </a>
+
+              <a
+                href="https://github.com/Cyber-Exorcist0"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-4 py-2 rounded-md bg-exo-card hover:bg-exo-cardHover border border-exo-border hover:border-exo-primary text-slate-200 hover:text-white transition-colors flex items-center gap-2"
+              >
+                <svg class="w-4 h-4 text-exo-primary" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                </svg>
+                <span>GitHub</span>
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/cyber-exorcist0/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-4 py-2 rounded-md bg-exo-card hover:bg-exo-cardHover border border-exo-border hover:border-exo-primary text-slate-200 hover:text-white transition-colors flex items-center gap-2"
+              >
+                <svg class="w-4 h-4 text-exo-primary" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
+                </svg>
+                <span>LinkedIn</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      );
+    })()}
+  </section>
+
+  <!-- NEWSLETTER SUBSCRIPTION -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <NewsletterBox />
+  </div>
+</BaseLayout>

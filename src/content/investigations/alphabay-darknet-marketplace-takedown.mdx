@@ -1,0 +1,142 @@
+---
+title: "Operation Bayonet: The Fall of AlphaBay and Alexandre Cazes"
+subtitle: "How an automated forum welcome email unmasked the administrator of the dark web's largest illicit empire"
+description: "Deconstructing the fatal OPSEC failure in automated PHP mail headers that exposed AlphaBay creator Alexandre Cazes to FBI and DEA investigators."
+category: "Darknet & Underground Markets"
+tags: ["AlphaBay", "Operation Bayonet", "OPSEC", "Tor", "DEA", "Dark Web"]
+authors: ["Cyber Exorcist"]
+publication_date: "2024-02-18"
+updated_date: "2024-02-22"
+cover_image: "/images/cases/case-alphabay.svg"
+reading_time: "11 min read"
+featured: false
+type: "investigation"
+status: "published"
+case_id: "CE-2017-07"
+threat_actor: "Alexandre Cazes ('Alpha02' / 'Admin')"
+target: "Global Illicit Darknet Commerce Ecosystem"
+impact: "$1 Billion+ in cumulative illicit darknet transactions"
+references:
+  - title: "Justice Department Announces Takedown of AlphaBay, the Largest Darknet Market in History"
+    url: "https://www.justice.gov/opa/pr/justice-department-announces-takedown-alphabay-largest-darknet-market-history"
+    organization: "U.S. Department of Justice"
+    date: "July 20, 2017"
+  - title: "Indictment: United States v. Alexandre Cazes"
+    url: "https://www.justice.gov/opa/press-release/file/983196/download"
+    organization: "U.S. District Court, Eastern District of California"
+    date: "June 1, 2017"
+---
+
+import InvestigationTimeline from '../../components/article/InvestigationTimeline.astro';
+import TechnicalBreakdown from '../../components/article/TechnicalBreakdown.astro';
+import AttackChain from '../../components/article/AttackChain.astro';
+import EvidenceCard from '../../components/article/EvidenceCard.astro';
+import KeyFindings from '../../components/article/KeyFindings.astro';
+import EditorialAlert from '../../components/article/EditorialAlert.astro';
+import ReferenceList from '../../components/article/ReferenceList.astro';
+
+## Executive Summary
+
+At its peak in early 2017, **AlphaBay** was ten times larger than the original Silk Road. The underground marketplace hosted over 250,000 listings for illegal narcotics, counterfeit identity documents, weapon blueprints, and cybercrime tools, serving over 400,000 registered buyers across the globe.
+
+Its architect, operating under the pseudonyms **Alpha02** and **Admin**, possessed elite operational security protocols—or so he believed. The operation was ultimately brought down not by an exploit against Tor's onion routing protocol or quantum cryptanalysis, but by an elementary infrastructure misconfiguration in AlphaBay's automated forum welcome scripts.
+
+<KeyFindings
+  title="Key Investigative Discoveries"
+  items={[
+    "Automated Header Leakage: During December 2014 launch, welcome emails dispatched by forum software included 'Pravatt@gmail.com' in the RFC 822 From-header.",
+    "Real-World Alias Correlation: 'Pravatt' was directly linked to a 2008 forum post by Alexandre Cazes, a Canadian computer programmer residing in Thailand.",
+    "Unencrypted Live Terminal Seizure: Royal Thai Police and FBI captured Cazes's laptop unlocked and open to the AlphaBay server management console."
+  ]}
+/>
+
+---
+
+## Technical Breakdown: The Mailer Header Leak
+
+<TechnicalBreakdown
+  title="The Unsanitized PHP mail() Header Leak"
+  topic="SERVER CONFIGURATION & SCRIPT FLAW"
+  complexity="Intermediate"
+>
+
+When AlphaBay launched in late 2014, new user registrations prompted an automated confirmation email. Under standard PHP `mail()` configurations, if a server envelope sender is not strictly overridden in `php.ini` or function parameters, PHP defaults to the local system user or the administrative contact address:
+
+```http
+Date: Sun, 21 Dec 2014 18:42:01 -0500
+To: target-researcher@protonmail.com
+Subject: Welcome to the AlphaBay Market Forum
+From: AlphaBay Market <Pravatt@gmail.com>
+Reply-To: Pravatt@gmail.com
+X-Mailer: PHPMailer 5.2.8 (https://github.com/PHPMailer/PHPMailer/)
+Message-ID: <029f8a31dc190a9@alphabay.market>
+```
+
+This single string—`Pravatt@gmail.com`—was recorded by researchers and law enforcement. Federal investigators searched legacy internet archives and uncovered a 2008 post on a French technology forum (`commentcamarche.net`) where an individual named **Alexandre Cazes** concluded a technical programming post with the signature:
+
+`Alexandre Cazes -- Pravatt@gmail.com`
+
+From that moment onward, the identity of the world's most hunted darknet administrator was known to the FBI, DEA, and RCMP.
+
+</TechnicalBreakdown>
+
+---
+
+## The Investigation Timeline
+
+<InvestigationTimeline
+  events={[
+    {
+      date: "December 2014",
+      title: "AlphaBay Goes Live",
+      description: "AlphaBay launches as an escrow marketplace. Welcome emails inadvertently broadcast 'Pravatt@gmail.com' in plaintext headers.",
+      evidenceRef: "LE-HEADER-2014",
+      type: "incident"
+    },
+    {
+      date: "December 2016",
+      title: "Operation Bayonet Conceived",
+      description: "Multi-national task force (FBI, DEA, Europol, Dutch Police, RCMP) begins mapping Cazes's physical assets in Bangkok, Thailand.",
+      type: "legal"
+    },
+    {
+      date: "July 5, 2017",
+      title: "The Bangkok Raid & Unlocked Mac Capture",
+      description: "Thai tactical police ram Cazes's residence gate as a diversion. Cazes runs to the balcony, leaving his MacBook Pro booted and decrypted with administrative credentials active.",
+      evidenceRef: "EVID-BANGKOK-01",
+      type: "legal"
+    }
+  ]}
+/>
+
+---
+
+<EvidenceCard
+  id="EXHIBIT-C-19"
+  title="The Open Console Live RAM Image"
+  type="Memory Dump"
+  source="FBI Forensic Examination Report, Eastern District of California"
+  significance="Provided complete administrative keys, database passwords, and hot wallet seeds."
+  hashOrIdentifier="SHA256: 9e32a10408d661b18360a8b9487fa10b938fec293818e77a16b"
+>
+  Upon entering Cazes's residence, investigators found him logged into the AlphaBay administrative server panel under the handle 'Admin'. Text files on the desktop contained unencrypted private keys for AlphaBay's Bitcoin, Monero, and Ethereum hot wallets, resulting in instantaneous asset seizure.
+</EvidenceCard>
+
+---
+
+<ReferenceList
+  references={[
+    {
+      title: "DOJ Announcement: AlphaBay, Largest Darknet Market in History, Shut Down",
+      url: "https://www.justice.gov/opa/pr/justice-department-announces-takedown-alphabay-largest-darknet-market-history",
+      organization: "Department of Justice",
+      date: "July 2017"
+    },
+    {
+      title: "Europol: Massive Blow to Criminal Dark Web Activities After Operation Bayonet",
+      url: "https://www.europol.europa.eu/newsroom/news",
+      organization: "Europol Joint Action Taskforce",
+      date: "July 2017"
+    }
+  ]}
+/>

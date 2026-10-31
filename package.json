@@ -1,0 +1,28 @@
+{
+  "name": "cyber-exorcist",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Cyber Exorcist - Independent Cybercrime Research & Technical Investigation Publication",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.1.0",
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^6.0.0",
+    "@tailwindcss/typography": "^0.5.16",
+    "astro": "^5.4.0",
+    "lucide-astro": "^0.477.0",
+    "tailwindcss": "^3.4.17"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "typescript": "^5.7.3"
+  }
+}

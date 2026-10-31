@@ -1,0 +1,184 @@
+---
+title: "Dissecting the Conti Syndicate: Internal Chats and Binary Internals"
+subtitle: "Reverse-engineering the Windows Restart Manager hook, ChaCha20 crypto engine, and analyzing 60,000 leaked operator messages"
+description: "A deep technical dissection of the Conti ransomware locker: binary disassembly, kernel API avoidance techniques, and organizational syndicate mechanics exposed by the 2022 leaks."
+category: "Malware Analysis"
+tags: ["Conti", "Ransomware", "Reverse Engineering", "ChaCha20", "Windows Internals", "DFIR"]
+authors: ["Cyber Exorcist"]
+publication_date: "2024-01-29"
+updated_date: "2024-02-05"
+cover_image: "/images/cases/case-conti.svg"
+reading_time: "16 min read"
+featured: false
+type: "technical"
+status: "published"
+case_id: "TA-2022-04"
+threat_actor: "Conti Ransomware Group (Wizard Spider / TrickBot)"
+target: "Healthcare, Manufacturing & Critical Infrastructure"
+impact: "$180M+ in extortion demands across 1,000+ organizations"
+references:
+  - title: "CISA Cybersecurity Advisory: Alert AA21-265A on Conti Ransomware"
+    url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-265a"
+    organization: "Cybersecurity and Infrastructure Security Agency (CISA)"
+    date: "September 2021"
+  - title: "Conti Leaks: Examining 60,000 Leaked Jabber Chat Logs"
+    url: "https://krebsonsecurity.com/2022/03/conti-ransomware-group-diaries-part-i-evasion/"
+    organization: "Brian Krebs / Security Research Community"
+    date: "March 2022"
+---
+
+import InvestigationTimeline from '../../components/article/InvestigationTimeline.astro';
+import TechnicalBreakdown from '../../components/article/TechnicalBreakdown.astro';
+import AttackChain from '../../components/article/AttackChain.astro';
+import EvidenceCard from '../../components/article/EvidenceCard.astro';
+import KeyFindings from '../../components/article/KeyFindings.astro';
+import EditorialAlert from '../../components/article/EditorialAlert.astro';
+import ReferenceList from '../../components/article/ReferenceList.astro';
+
+## Executive Summary
+
+In February 2022, following an internal ideological fissure within the notorious **Conti ransomware syndicate**, a Ukrainian security researcher leaked over 60,000 internal Jabber and Matrix chat logs, along with raw C++ source code repositories, decryptor utilities, and administrative manuals.
+
+The resulting telemetry offered the cybersecurity community an unprecedented autopsy of modern ransomware operations. Conti did not operate like a rogue hacking gang; it was structured as an enterprise corporation with human resources, salaried developers, system administrators, negotiators, and performance bonuses.
+
+This technical investigation dissects both the operational structure of the syndicate and the binary mechanics of the **Conti v3 Windows locker payload**.
+
+<KeyFindings
+  title="Technical & Structural Revelations"
+  items={[
+    "Corporate Hierarchy: Dedicated departments for QA testing, crypter development, reverse engineering AV bypasses, and blockchain cash-out.",
+    "Windows Restart Manager Abuse: Uses 'RmStartSession' and 'RmGetList' to kill processes holding open file handles (SQL, Exchange, Hyper-V) prior to encryption.",
+    "Hybrid Cryptography: Employs ChaCha20 for lightning-fast multi-threaded symmetric encryption, wrapped under an embedded hardcoded public RSA-4096 key."
+  ]}
+/>
+
+---
+
+## Technical Breakdown: The Locker Binary Architecture
+
+<TechnicalBreakdown
+  title="Restart Manager Hooking & Multi-Threaded IO Completion Ports"
+  topic="WINDOWS INTERNALS & ENCRYPTION MECHANICS"
+  complexity="Binary Internals"
+>
+
+Conti achieved high encryption throughput by employing Windows **I/O Completion Ports (IOCP)** across up to 32 parallel worker threads, bypassing traditional sequential file traversal bottlenecks.
+
+Before encrypting an open file, Conti queries the Windows **Restart Manager API** (`RstrtMgr.dll`). This allows the malware to terminate database services and file locks without requiring administrative elevation prompts or crashing the entire host OS:
+
+```c
+// Decompiled pseudo-code of Conti's file-unlocking routine
+DWORD UnlockTargetFile(LPCWSTR filePath) {
+    DWORD dwSessionHandle = 0;
+    WCHAR szSessionKey[CCH_RM_SESSION_KEY + 1] = { 0 };
+    
+    // 1. Initialize Restart Manager Session
+    if (RmStartSession(&dwSessionHandle, 0, szSessionKey) != ERROR_SUCCESS) {
+        return 0;
+    }
+    
+    // 2. Register file path with Restart Manager
+    LPCWSTR rgsFiles[] = { filePath };
+    if (RmRegisterResources(dwSessionHandle, 1, rgsFiles, 0, NULL, 0, NULL) == ERROR_SUCCESS) {
+        UINT nProcInfoNeeded = 0;
+        UINT nProcInfo = 10;
+        RM_PROCESS_INFO rgpi[10];
+        DWORD dwRebootReasons = 0;
+        
+        // 3. Identify all processes locking this file (e.g. sqlservr.exe, vmware-vmx.exe)
+        if (RmGetList(dwSessionHandle, &nProcInfoNeeded, &nProcInfo, rgpi, &dwRebootReasons) == ERROR_SUCCESS) {
+            for (UINT i = 0; i < nProcInfo; i++) {
+                HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, rgpi[i].Process.dwProcessId);
+                if (hProcess) {
+                    // Force terminate the locking process
+                    TerminateProcess(hProcess, 1);
+                    CloseHandle(hProcess);
+                }
+            }
+        }
+    }
+    RmEndSession(dwSessionHandle);
+    return 1;
+}
+```
+
+Once file locks are broken, Conti writes an encrypted footer to each file containing the ChaCha20 key encrypted with the master RSA-4096 public key, appending the `.CONTI` extension.
+
+</TechnicalBreakdown>
+
+---
+
+## The Attack Chain
+
+<AttackChain
+  title="Conti Enterprise Network Compromise Lifecycle"
+  stages={[
+    {
+      number: 1,
+      phase: "Initial Access",
+      action: "Phishing / Initial Access Brokers",
+      technicalVector: "BazaarLoader or QakBot payload execution via macro-enabled Excel documents.",
+      mitigationOrDetection: "Strict macro blocking (Mark-of-the-Web) and EDR behavioral monitoring."
+    },
+    {
+      number: 2,
+      phase: "Domain Reconnaissance",
+      action: "AD Mapping & Privilege Escalation",
+      technicalVector: "Execution of BloodHound and AdFind; exploitation of Zerologon (CVE-2020-1472).",
+      mitigationOrDetection: "Active Directory tiering and automated domain controller patch auditing."
+    },
+    {
+      number: 3,
+      phase: "Lateral Movement & Defense Evasion",
+      action: "Cobalt Strike & EDR Blinding",
+      technicalVector: "Deploying custom Cobalt Strike beacons and uninstalling endpoint telemetry agents.",
+      mitigationOrDetection: "Tamper protection on EDR agents and canary file traps."
+    },
+    {
+      number: 4,
+      phase: "Data Exfiltration",
+      action: "Double Extortion Staging",
+      technicalVector: "Rclone / MegaSync cloud upload of sensitive intellectual property.",
+      mitigationOrDetection: "Network egress filtering and abnormal cloud storage traffic alerts."
+    },
+    {
+      number: 5,
+      phase: "Widespread Encryption",
+      action: "IOCP Ransomware Deployment",
+      technicalVector: "PsExec distribution of Conti DLL across domain shares via administrative IPC$.",
+      mitigationOrDetection: "Restricted administrative shares and behavioral heuristic locker detection."
+    }
+  ]}
+/>
+
+---
+
+<EvidenceCard
+  id="EXHIBIT-T-88"
+  title="Leaked Source Code Repository (conti_v3.zip)"
+  type="Source Code"
+  source="Conti Leaks Dump (Ukrainian Cybersecurity Researcher)"
+  significance="Provided complete insight into locker evasion routines and key generation."
+  hashOrIdentifier="SHA256: 489f07452d2f4a434e3a09e08bb87429188dbe39c81b21235471d8be8c4d51b7"
+>
+  The source code leak confirmed that Conti developed separate compiled binaries for Windows x86, x64, and Linux/ESXi environments, utilizing API hashing (MurmurHash3) to hinder static analysis by defensive analysts.
+</EvidenceCard>
+
+---
+
+<ReferenceList
+  references={[
+    {
+      title: "CISA Cybersecurity Advisory on Conti Ransomware (AA21-265A)",
+      url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-265a",
+      organization: "CISA",
+      date: "September 2021"
+    },
+    {
+      title: "Conti Ransomware Source Code and Jabber Chat Analysis",
+      url: "https://krebsonsecurity.com/2022/03/conti-ransomware-group-diaries-part-i-evasion/",
+      organization: "Krebs on Security",
+      date: "March 2022"
+    }
+  ]}
+/>

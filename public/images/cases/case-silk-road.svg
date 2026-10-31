@@ -1,0 +1,65 @@
+<svg viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#080B12" />
+  
+  <!-- Circuit and Blockchain Forensic Grid -->
+  <defs>
+    <pattern id="caseGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#253044" stroke-width="1" stroke-opacity="0.3" />
+      <circle cx="0" cy="0" r="1.5" fill="#38BDF8" opacity="0.4" />
+    </pattern>
+    <radialGradient id="silkGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#080B12" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  
+  <rect width="1200" height="630" fill="url(#caseGrid)" />
+  <circle cx="600" cy="315" r="400" fill="url(#silkGlow)" />
+  
+  <!-- Technical Dossier Overlay -->
+  <rect x="40" y="40" width="1120" height="550" rx="8" stroke="#253044" stroke-width="1.5" />
+  <line x1="40" y1="100" x2="1160" y2="100" stroke="#253044" stroke-width="1" />
+  
+  <!-- Case Header -->
+  <text x="70" y="75" font-family="Courier, monospace" font-size="14" fill="#38BDF8" letter-spacing="2">CASE FILE: CE-2012-09 // SECTOR: CRYPTOCURRENCY_CRIME</text>
+  <text x="960" y="75" font-family="Courier, monospace" font-size="14" fill="#F59E0B" letter-spacing="1">STATUS: ADJUDICATED (DOJ SEIZURE)</text>
+  
+  <!-- Blockchain Network Forensic Visualization -->
+  <g transform="translate(150, 180)">
+    <!-- Origin Node: Silk Road Central Withdrawal Hot Wallet -->
+    <circle cx="200" cy="180" r="38" fill="#111827" stroke="#EF4444" stroke-width="2.5" />
+    <text x="200" y="176" font-family="Courier, monospace" font-size="10" fill="#EF4444" text-anchor="middle">HOT WALLET</text>
+    <text x="200" y="192" font-family="Courier, monospace" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">SILK ROAD</text>
+    
+    <!-- Exploit Transaction Vectors -->
+    <path d="M240 180 C340 140 400 120 500 120" stroke="#38BDF8" stroke-width="2.5" stroke-dasharray="4 2" />
+    <polygon points="500,120 490,115 490,125" fill="#38BDF8" />
+    <text x="360" y="125" font-family="Courier, monospace" font-size="11" fill="#38BDF8">50,000+ BTC RACE EXPLOIT</text>
+    
+    <path d="M240 190 C340 220 400 240 500 240" stroke="#8B5CF6" stroke-width="2" stroke-dasharray="4 2" />
+    <polygon points="500,240 490,235 490,245" fill="#8B5CF6" />
+    <text x="360" y="245" font-family="Courier, monospace" font-size="11" fill="#8B5CF6">SPLIT INTO 9 CONCURRENT ACCOUNTS</text>
+    
+    <!-- Intermediary Peel Chain Clusters -->
+    <rect x="520" y="95" width="160" height="50" rx="4" fill="#111827" stroke="#253044" stroke-width="1.5" />
+    <text x="600" y="117" font-family="Courier, monospace" font-size="9" fill="#94A3B8" text-anchor="middle">PEEL CHAIN CONSOLIDATION</text>
+    <text x="600" y="133" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="12" fill="#E5E7EB" text-anchor="middle">11 Wallets (Athens, GA)</text>
+    
+    <rect x="520" y="215" width="160" height="50" rx="4" fill="#111827" stroke="#253044" stroke-width="1.5" />
+    <text x="600" y="237" font-family="Courier, monospace" font-size="9" fill="#94A3B8" text-anchor="middle">IRSH-CI CHAINALYSIS TRACE</text>
+    <text x="600" y="253" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="12" fill="#38BDF8" text-anchor="middle">0.0001 BTC Micro-Tx Trap</text>
+    
+    <!-- Target Seizure: Floorboard Popcorn Tin Safe -->
+    <path d="M680 120 L760 170" stroke="#F59E0B" stroke-width="2" />
+    <path d="M680 240 L760 190" stroke="#F59E0B" stroke-width="2" />
+    
+    <circle cx="820" cy="180" r="45" fill="#111827" stroke="#F59E0B" stroke-width="3" />
+    <text x="820" y="170" font-family="Courier, monospace" font-size="10" fill="#F59E0B" text-anchor="middle">RECOVERY</text>
+    <text x="820" y="188" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="14" fill="#FFFFFF" text-anchor="middle">$3.36 BILLION</text>
+    <text x="820" y="202" font-family="Courier, monospace" font-size="9" fill="#94A3B8" text-anchor="middle">50,491.1343 BTC</text>
+  </g>
+  
+  <!-- Bottom Caption -->
+  <text x="70" y="540" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="28" fill="#FFFFFF">James Zhong: The Silk Road Bitcoin Theft</text>
+  <text x="70" y="568" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#94A3B8">How a flaw in Silk Road's withdrawal processor led to a $3.36B decade-long heist and forensic recovery</text>
+</svg>
