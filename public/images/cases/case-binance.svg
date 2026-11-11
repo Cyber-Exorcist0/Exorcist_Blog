@@ -1,0 +1,55 @@
+<svg viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#080B12" />
+  <defs>
+    <pattern id="binanceGrid" width="60" patternUnits="userSpaceOnUse" height="60">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#253044" stroke-width="1" stroke-opacity="0.3" />
+      <circle cx="0" cy="0" r="1.5" fill="#F0B90B" opacity="0.4" />
+    </pattern>
+    <linearGradient id="binanceGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F0B90B" />
+      <stop offset="100%" stop-color="#38BDF8" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#binanceGrid)" />
+  <rect x="40" y="40" width="1120" height="550" rx="8" stroke="#253044" stroke-width="1.5" />
+  <line x1="40" y1="100" x2="1160" y2="100" stroke="#253044" stroke-width="1" />
+  <text x="70" y="75" font-family="Courier, monospace" font-size="14" fill="#F0B90B" letter-spacing="2">CASE FILE: CE-2026-10 // SECTOR: EXCHANGE_INFRASTRUCTURE</text>
+  <text x="890" y="75" font-family="Courier, monospace" font-size="14" fill="#38BDF8" letter-spacing="1">THREAT ACTOR: TRADERTRAITOR (DPRK)</text>
+  
+  <!-- Architectural Intrusion and EIP-7702 Vector -->
+  <g transform="translate(110, 175)">
+    <!-- Node 1: Workstation Vector -->
+    <rect x="20" y="50" width="230" height="135" rx="6" fill="#111827" stroke="#38BDF8" stroke-width="2" />
+    <text x="135" y="85" font-family="Courier, monospace" font-size="12" fill="#38BDF8" text-anchor="middle">ENDPOINT COMPROMISE</text>
+    <text x="135" y="112" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#94A3B8" text-anchor="middle">Fake Recruitment &amp; Homebrew</text>
+    <text x="135" y="132" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#CBD5E1" text-anchor="middle">Internal AI Tool Pivoting</text>
+    <text x="135" y="157" font-family="Courier, monospace" font-size="10" fill="#F59E0B" text-anchor="middle">Deploy Token Harvested</text>
+
+    <!-- Connector 1 -->
+    <path d="M250 117 L340 117" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 2" />
+    <polygon points="340,117 330,112 330,122" fill="#F59E0B" />
+    <text x="295" y="107" font-family="Courier, monospace" font-size="10" fill="#F59E0B" text-anchor="middle">CI/CD TOKEN</text>
+
+    <!-- Node 2: Container & Signing Pipeline -->
+    <rect x="350" y="50" width="260" height="135" rx="6" fill="#111827" stroke="#F0B90B" stroke-width="2" />
+    <text x="480" y="85" font-family="Courier, monospace" font-size="12" fill="#F0B90B" text-anchor="middle">ROGUE SERVICE CONTAINER</text>
+    <text x="480" y="112" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#94A3B8" text-anchor="middle">Unauthorized Container Spin-Up</text>
+    <text x="480" y="132" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#CBD5E1" text-anchor="middle">Direct Signing Service RPC</text>
+    <text x="480" y="157" font-family="Courier, monospace" font-size="10" fill="#10B981" text-anchor="middle">Private Keys Untouched</text>
+
+    <!-- Connector 2 -->
+    <path d="M610 117 L700 117" stroke="#EF4444" stroke-width="2" stroke-dasharray="4 2" />
+    <polygon points="700,117 690,112 690,122" fill="#EF4444" />
+    <text x="655" y="107" font-family="Courier, monospace" font-size="10" fill="#EF4444" text-anchor="middle">TYPE 0x04 TX</text>
+
+    <!-- Node 3: On-Chain EIP-7702 Sweeper -->
+    <rect x="710" y="50" width="250" height="135" rx="6" fill="#111827" stroke="#EF4444" stroke-width="2" />
+    <text x="835" y="85" font-family="Courier, monospace" font-size="12" fill="#EF4444" text-anchor="middle">EIP-7702 SWEEPER DRAIN</text>
+    <text x="835" y="112" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#94A3B8" text-anchor="middle">50 Pre-Signed Authorizations</text>
+    <text x="835" y="132" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#CBD5E1" text-anchor="middle">Binance 14 Delegated to Sweeper</text>
+    <text x="835" y="157" font-family="Courier, monospace" font-size="10" fill="#EF4444" text-anchor="middle">$6.34B Multi-Chain Outflow</text>
+  </g>
+  
+  <text x="70" y="525" font-family="Helvetica, Arial, sans-serif" font-weight="bold" font-size="28" fill="#FFFFFF">Binance 2026 Security Incident: Engineering Breach and EIP-7702 Exploitation</text>
+  <text x="70" y="555" font-family="Helvetica, Arial, sans-serif" font-size="15" fill="#94A3B8">Deconstructing the social engineering campaign, internal AI pivot, rogue container signing, and Ethereum delegation sweeper</text>
+</svg>
